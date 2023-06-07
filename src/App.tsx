@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 // import type {PropsWithChildren} from 'react';
-import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import {
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  useColorScheme,
+} from 'react-native';
 import News from './components/News';
 
 let country = 'in';
@@ -15,9 +21,14 @@ API_KEY = '0c8d38e5a8ff4712a05ef4d14e5d80b0'; // Other API_KEY
 const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=general&apikey=${API_KEY}`;
 
 function App(): JSX.Element {
+  const isDark = useColorScheme() === 'dark';
   return (
     <SafeAreaView>
-      <StatusBar barStyle={'dark-content'} />
+      <StatusBar
+        barStyle={isDark ? 'dark-content' : 'light-content'}
+        backgroundColor={isDark ? 'gray' : 'white'}
+      />
+      <Text className="mx-4 mt-2 text-2xl font-bold">{title}</Text>
       <News url={url} />
     </SafeAreaView>
   );
