@@ -28,8 +28,7 @@ function App(): JSX.Element {
         barStyle={isDark ? 'dark-content' : 'light-content'}
         backgroundColor={isDark ? 'gray' : 'white'}
       />
-      <Text className="mx-4 mt-2 text-2xl font-bold">{title}</Text>
-      <News url={url} />
+      <News url={url} title={title} />
     </SafeAreaView>
   );
 }

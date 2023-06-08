@@ -4,10 +4,11 @@ import {
   Text,
   Image,
   StyleSheet,
-  TouchableOpacity,
   Linking,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
+import Feather from 'react-native-vector-icons/dist/Feather';
 
 const NewsItem = ({item}) => {
   // To Open NewUrl in Browser
@@ -17,41 +18,68 @@ const NewsItem = ({item}) => {
   };
 
   return (
-    <View className="mx-3 mb-7 bg-slate-900" style={styles.elevation}>
-      <Image source={{uri: item.urlToImage}} style={styles.NewsImg} />
+    <View
+      className="mx-7 mb-7 bg-slate-50 dark:bg-slate-900 rounded-md flex"
+      style={styles.elevation}>
+      <Text className="absolute top-0 z-10 right-0 bg-blue-700 py-1 px-2 text-[9px] font-normal rounded-md text-white">
+        {item.source.name}
+      </Text>
+      <Image
+        className="rounded-t-md"
+        source={{uri: item.urlToImage}}
+        style={styles.NewsImg}
+      />
+
       <View className="p-3 gap-y-3">
-        <Text
-          className="text-base leading-relaxed font-light"
-          numberOfLines={3}>
-          <Text className="font-bold">Title :</Text> {item.title}
-        </Text>
-
-        <Text
-          className="text-base leading-relaxed font-light"
-          numberOfLines={3}>
-          <Text className="font-bold">Description :</Text> {item.description}
-        </Text>
-
-        <Text
-          className="text-base leading-relaxed font-light"
-          numberOfLines={3}>
-          <Text className="font-bold">Content :</Text> {item.content}
-        </Text>
-
-        <Text className="font-light">
-          <Text className="font-semibold">By {item.author}</Text> on
-          {` ${new Date(item.publishedAt).toDateString()}, ${new Date(
-            item.publishedAt,
-          ).toLocaleTimeString()}`}
-        </Text>
-        <TouchableOpacity
-          className="bg-red-50 inline-flex rounded-md"
-          // style={styles.elevation}
-          onPress={() => handleReadMore(item.url)}>
-          <Text className="p-3 font-bold bg-blue-700 rounded-md">
-            Read More
+        {item.title && (
+          <Text
+            className="text-base leading-relaxed font-light text-slate-900 dark:text-slate-400"
+            numberOfLines={3}>
+            <Text className="font-bold dark:text-white">Title :</Text>{' '}
+            {item.title}
           </Text>
-        </TouchableOpacity>
+        )}
+
+        {item.description && (
+          <Text
+            className="text-base leading-relaxed font-light text-slate-900 dark:text-slate-400"
+            numberOfLines={3}>
+            <Text className="font-bold dark:text-white">Description :</Text>{' '}
+            {item.description}
+          </Text>
+        )}
+
+        {item.content && (
+          <Text
+            className="text-base leading-relaxed font-light text-slate-900 dark:text-slate-400"
+            numberOfLines={4}>
+            <Text className="font-bold dark:text-white">Content :</Text>{' '}
+            {item.content}
+          </Text>
+        )}
+
+        {item.author && item.publishedAt && (
+          <Text className="font-light text-slate-600 dark:text-slate-400 text-xs">
+            <Text className="font-semibold text-slate-700 dark:text-slate-300">
+              By {item.author}
+            </Text>{' '}
+            on
+            {` ${new Date(item.publishedAt).toDateString()}, ${new Date(
+              item.publishedAt,
+            ).toLocaleTimeString()}`}
+          </Text>
+        )}
+
+        {item.url && (
+          <TouchableOpacity
+            className="bg-red-50 rounded-md"
+            onPress={() => handleReadMore(item.url)}>
+            <Text className="p-3 text-center justify-center  font-bold bg-blue-700 rounded-md text-white">
+              Read More
+              <Feather name="arrow-up-right" size={18} color="white" />
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

@@ -10,7 +10,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import NewsItem from './NewsItem';
 
-const News = ({url}): JSX.Element => {
+const News = ({url, title}): JSX.Element => {
   const isDark = useColorScheme() === 'dark';
   const [NewArticals, setNewArticals] = useState([
     {
@@ -362,15 +362,20 @@ const News = ({url}): JSX.Element => {
     );
   }
   return (
-    <View>
-      <Text className="text-xl font-medium text-center my-3">
-        Top Headline - General Category
+    <View className="">
+      <Text className="text-xl font-normal text-center my-2 text-black dark:text-white">
+        <Text className="font-semibold">NewsMoney</Text> - Top General Headlines
       </Text>
+      {/* <View className="flex flex-row flex-wrap justify-evenly"> */}
+      {/* {NewArticals.map(item => (
+          <NewsItem item={item} />
+        ))} */}
       <FlatList
         data={NewArticals}
         renderItem={({item}) => <NewsItem item={item} />}
         keyExtractor={item => item.url}
       />
+      {/* </View> */}
     </View>
   );
 };
