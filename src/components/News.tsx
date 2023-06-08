@@ -26,15 +26,17 @@ const News = (): JSX.Element => {
 
   if (NewArticals.length === 0) {
     return (
-      <ActivityIndicator
-        color={isDark ? 'white' : 'gray'}
-        size={'large'}
-        className="my-3"
-      />
+      <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
+        <ActivityIndicator
+          color={isDark ? 'white' : 'gray'}
+          size={'large'}
+          className="my-3"
+        />
+      </View>
     );
   }
   return (
-    <View className="bg-slate-300 dark:bg-slate-800">
+    <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
       <Text className="text-xl font-normal text-center my-2 text-black dark:text-white">
         <Text className="font-semibold">NewsMoney</Text> - Top General Headlines
       </Text>
