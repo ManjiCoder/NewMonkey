@@ -10,7 +10,7 @@ import {
 import React from 'react';
 import Feather from 'react-native-vector-icons/dist/Feather';
 
-const NewsItem = ({item}) => {
+const NewsItem = ({item, color}) => {
   // console.log(item.urlToImage);
   // To Open NewUrl in Browser
   const handleReadMore = async (url: string) => {
@@ -22,7 +22,8 @@ const NewsItem = ({item}) => {
     <View
       className="mx-7 mb-7 bg-slate-50 dark:bg-slate-900 rounded-md flex"
       style={styles.elevation}>
-      <Text className="absolute top-0 z-10 right-0 bg-blue-700 py-1 px-2 text-[9px] font-normal rounded-md text-white">
+      <Text
+        className={`absolute top-0 z-10 right-0 ${color} py-1 px-2 text-[9px] font-semibold rounded-md text-white`}>
         {item.source.name}
       </Text>
       <Image

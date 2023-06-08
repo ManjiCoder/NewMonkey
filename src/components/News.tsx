@@ -7,8 +7,9 @@ import {ActivityIndicator} from 'react-native-paper';
 
 const News = (): JSX.Element => {
   const route = useRoute();
-  const {url} = route.params;
-  console.log(url);
+  const {name} = route;
+  const {url, badgeColor} = route.params;
+  // console.log(url,badgeColor);
   const isDark = useColorScheme() === 'dark';
   const [NewArticals, setNewArticals] = useState([]);
 
@@ -16,7 +17,7 @@ const News = (): JSX.Element => {
     let res = await fetch(url);
     let data = await res.json();
     setNewArticals(data.articles);
-    console.log(url);
+    // console.log(url);
     // console.log({data});
   };
   useEffect(() => {
@@ -37,8 +38,8 @@ const News = (): JSX.Element => {
   }
   return (
     <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
-      <Text className="text-xl font-normal text-center my-2 text-black dark:text-white">
-        <Text className="font-semibold">NewsMoney</Text> - Top General Headlines
+      <Text className="text-base font-normal text-center my-2 text-black dark:text-white">
+        <Text className="font-semibold">NewsMoney</Text> - Top {name} Headlines
       </Text>
       {/* <View className="flex flex-row flex-wrap justify-evenly"> */}
       {/* {NewArticals.map(item => (
@@ -46,7 +47,7 @@ const News = (): JSX.Element => {
         ))} */}
       <FlatList
         data={NewArticals}
-        renderItem={({item}) => <NewsItem item={item} />}
+        renderItem={({item}) => <NewsItem item={item} color={badgeColor} />}
         keyExtractor={item => item.url}
       />
       {/* </View> */}
