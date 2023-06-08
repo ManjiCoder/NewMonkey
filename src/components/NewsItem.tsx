@@ -11,6 +11,7 @@ import React from 'react';
 import Feather from 'react-native-vector-icons/dist/Feather';
 
 const NewsItem = ({item}) => {
+  // console.log(item.urlToImage);
   // To Open NewUrl in Browser
   const handleReadMore = async (url: string) => {
     console.log(url);
@@ -26,7 +27,11 @@ const NewsItem = ({item}) => {
       </Text>
       <Image
         className="rounded-t-md"
-        source={{uri: item.urlToImage}}
+        source={{
+          uri:
+            item.urlToImage ||
+            'https://static.theprint.in/wp-content/uploads/2023/06/Greenhouse-gases.jpg',
+        }}
         style={styles.NewsImg}
       />
 

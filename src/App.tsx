@@ -9,13 +9,8 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import General from './screens/General';
-import Entertainment from './screens/Entertainment';
-import Business from './screens/Business';
-import Health from './screens/Health';
-import Science from './screens/Science';
-import Sports from './screens/Sports';
-import Technology from './screens/Technology';
+
+import News from './components/News';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -42,7 +37,7 @@ function App(): JSX.Element {
       <Tab.Navigator initialRouteName="Home">
         <Tab.Screen
           name="General"
-          component={General}
+          component={News}
           initialParams={{url: urls.General}}
           options={{
             tabBarIcon: () => (
@@ -52,7 +47,7 @@ function App(): JSX.Element {
         />
         <Tab.Screen
           name="Entertainment"
-          component={Entertainment}
+          component={News}
           initialParams={{url: urls.Entertainment}}
           options={{
             tabBarIcon: () => (
@@ -66,7 +61,7 @@ function App(): JSX.Element {
         />
         <Tab.Screen
           name="Business"
-          component={Business}
+          component={News}
           initialParams={{url: urls.Business}}
           options={{
             tabBarIcon: () => (
@@ -76,7 +71,7 @@ function App(): JSX.Element {
         />
         <Tab.Screen
           name="Health"
-          component={Health}
+          component={News}
           initialParams={{url: urls.Health}}
           options={{
             tabBarIcon: () => (
@@ -90,7 +85,7 @@ function App(): JSX.Element {
         />
         <Tab.Screen
           name="Science"
-          component={Science}
+          component={News}
           initialParams={{url: urls.Science}}
           options={{
             tabBarIcon: () => (
@@ -104,7 +99,7 @@ function App(): JSX.Element {
         />
         <Tab.Screen
           name="Sports"
-          component={Sports}
+          component={News}
           initialParams={{url: urls.Sports}}
           options={{
             tabBarIcon: () => (
@@ -114,7 +109,7 @@ function App(): JSX.Element {
         />
         <Tab.Screen
           name="Technology"
-          component={Technology}
+          component={News}
           initialParams={{url: urls.Technology}}
           options={{
             tabBarIcon: () => (
