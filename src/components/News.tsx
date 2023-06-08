@@ -1,16 +1,14 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  View,
-  Text,
-  FlatList,
-  ActivityIndicator,
-  useColorScheme,
-} from 'react-native';
+import {View, Text, FlatList, useColorScheme} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import NewsItem from './NewsItem';
+import {useNavigation} from '@react-navigation/native';
+import {ActivityIndicator} from 'react-native-paper';
 
-const News = ({url, title}): JSX.Element => {
+const News = (): JSX.Element => {
+  const {getState} = useNavigation();
+  const {params} = getState('Home').routes[0];
+  console.log(params);
   const isDark = useColorScheme() === 'dark';
   const [NewArticals, setNewArticals] = useState([
     {
@@ -358,11 +356,15 @@ const News = ({url, title}): JSX.Element => {
 
   if (NewArticals.length === 0) {
     return (
-      <ActivityIndicator color={isDark ? 'white' : 'gray'} size={'large'} />
+      <ActivityIndicator
+        color={isDark ? 'white' : 'gray'}
+        size={'large'}
+        className="my-3"
+      />
     );
   }
   return (
-    <View className="">
+    <View className="bg-slate-300 dark:bg-slate-800">
       <Text className="text-xl font-normal text-center my-2 text-black dark:text-white">
         <Text className="font-semibold">NewsMoney</Text> - Top General Headlines
       </Text>

@@ -258,5 +258,29 @@
     "urlToImage": "https://cdn.dnaindia.com/sites/default/files/styles/half/public/2023/06/06/2593602-nakuul-final.jpg",
     "publishedAt": "2023-06-06T13:28:19Z",
     "content": "Reported By:| Edited By: DNA Web Team |Source: DNA Web Desk |Updated: Jun 06, 2023, 06:58 PM ISTAfter quitting Bade Achhe Lagte Hain 2 in December 2022, Nakuul Mehta and Disha Parmar are back with"
+  },
+  {
+    "history": [
+      {"key": "Home-32KGv65Biz94gagyWJSE5", "type": "route"},
+      {"key": "Search-pqIuAF_O4ZVL_xqxVrgfe", "type": "route"}
+    ],
+    "index": 1,
+    "key": "tab-LlvIJggo4jRWSFgHEQng1",
+    "routeNames": ["Home", "Search"],
+    "routes": [
+      {
+        "key": "Home-32KGv65Biz94gagyWJSE5",
+        "name": "Home",
+        "params": "undefined"
+      },
+      {
+        "key": "Search-pqIuAF_O4ZVL_xqxVrgfe",
+        "name": "Search",
+        "params": "Object",
+        "path": "undefined"
+      }
+    ],
+    "stale": false,
+    "type": "tab"
   }
 ]
