@@ -22,7 +22,7 @@ let todayDate = new Date()
 
 todayDate[1] = (todayDate[1] - 1).toString().padStart(2, '0');
 todayDate = todayDate.join('-');
-console.log(todayDate);
+// console.log(todayDate);
 
 let country = 'in';
 // let pagesize = 16;
@@ -128,7 +128,7 @@ function App(): JSX.Element {
         labeled={false}
         shifting={true}
         screenListeners={() => {
-          Vibration.vibrate(27);
+          Vibration.vibrate(18);
         }}
         barStyle={[
           styles.bottomNavBar,

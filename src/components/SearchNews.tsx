@@ -40,12 +40,12 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
     setIsError(data.message);
     setTotalResults(data.totalResults);
     setIsLoading(false);
-    console.log(data.totalResults);
+    // console.log(data.totalResults);
     // console.log(url);
     // console.log({data});
   };
   useEffect(() => {
-    console.log('Iam fetching');
+    // console.log('Iam fetching');
     // getNews(url + API_KEY);
     getNews(url + API_KEY_1);
     // eslint-disable-next-line react-hooks/exhaustive-deps

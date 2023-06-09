@@ -43,7 +43,7 @@ const News = (): JSX.Element => {
     setIsError(data.message);
     setIsLoading(false);
     // console.log(url);
-    console.log({res, data});
+    // console.log({res, data});
   };
   useEffect(() => {
     // getNews(url + API_KEY);

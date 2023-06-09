@@ -12,7 +12,7 @@ const Search = () => {
   const [isSearch, setIsSearch] = useState(false);
 
   useEffect(() => {
-    console.log('Iam loading');
+    // console.log('Iam loading');
   }, [isSearch]);
 
   return (
@@ -26,16 +26,10 @@ const Search = () => {
         iconColor="#1e293b"
         className="mx-5 mt-2 h-11"
         onIconPress={() => {
-          if (searchQuery.trim().length !== 0) {
-            setIsSearch(searchQuery);
-          }
-          setSearchQuery('');
+          setIsSearch(searchQuery);
         }}
         onSubmitEditing={() => {
-          if (searchQuery.trim().length !== 0) {
-            setIsSearch(searchQuery);
-          }
-          setSearchQuery('');
+          setIsSearch(searchQuery);
         }}
       />
       {isSearch && (
