@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {StyleSheet, useColorScheme} from 'react-native';
+import {StyleSheet, Vibration, useColorScheme} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
@@ -111,8 +111,14 @@ function App(): JSX.Element {
     <NavigationContainer>
       <Tab.Navigator
         initialRouteName="General"
-        activeColor="red"
-        inactiveColor="#0f172a"
+        // activeColor="red"
+        // inactiveColor="#0f172a"
+        labeled={false}
+        // shifting={true}
+        screenListeners={() => {
+          // console.log('press');
+          Vibration.vibrate(30);
+        }}
         barStyle={[
           styles.bottomNavBar,
           isDark ? styles.bgDark : styles.bgLight,
@@ -125,7 +131,9 @@ function App(): JSX.Element {
             initialParams={{url: item.url, badgeColor: item.badgeColor}}
             options={{
               tabBarIcon: () => item.icon,
-              tabBarLabel: false,
+              tabBarColor: 'red',
+              tabBarAccessibilityLabel: item.name,
+              // tabBarBadge: true, // like notification in whatsapp
             }}
           />
         ))}
@@ -138,7 +146,7 @@ export default App;
 
 const styles = StyleSheet.create({
   bottomNavBar: {
-    height: 55,
+    // height: 55,
     paddingHorizontal: 10,
     justifyContent: 'space-between',
   },
