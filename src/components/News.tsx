@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {View, Text, FlatList, useColorScheme, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import NewsItem from './NewsItem';

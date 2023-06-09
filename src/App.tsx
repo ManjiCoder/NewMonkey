@@ -1,5 +1,6 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
-import {StyleSheet, Vibration, useColorScheme} from 'react-native';
+import {StatusBar, StyleSheet, Vibration, useColorScheme} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
@@ -18,6 +19,9 @@ let API_KEY = 'ec7735c4db74410f90ffeffaaa8bd570'; // My API_KEY
 // API_KEY = 'e93da7be7e134c76afa08f33b2b2b96b'; // Other API_KEY
 // API_KEY = '0c8d38e5a8ff4712a05ef4d14e5d80b0'; // Other API_KEY
 // API_KEY = 'e93da7be7e134c76afa08f33b2b2b9'; // Wrong API_KEY
+
+const darkStatusBar = '#1e293b';
+const lightStatusBar = '#cbd5e1';
 
 function App(): JSX.Element {
   const isDark = useColorScheme() === 'dark';
@@ -108,6 +112,10 @@ function App(): JSX.Element {
   ];
   return (
     <NavigationContainer>
+      <StatusBar
+        barStyle={isDark ? 'light-content' : 'dark-content'}
+        backgroundColor={isDark ? darkStatusBar : lightStatusBar}
+      />
       <Tab.Navigator
         initialRouteName="General"
         labeled={false}
