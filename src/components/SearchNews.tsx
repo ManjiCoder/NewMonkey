@@ -2,22 +2,19 @@
 import {View, Text, FlatList, useColorScheme, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import NewsItem from './NewsItem';
-import {useRoute} from '@react-navigation/native';
 import {ActivityIndicator, Snackbar} from 'react-native-paper';
 
 const darkStatusBar = '#1e293b';
 const lightStatusBar = '#cbd5e1';
 
-const News = (): JSX.Element => {
-  const route = useRoute();
-  const {name} = route;
-  const {url, badgeColor} = route.params;
-  // console.log(url,badgeColor);
+const SearchNews = ({url, badgeColor, query}): JSX.Element => {
+  console.log(url, badgeColor);
   const isDark = useColorScheme() === 'dark';
   const [NewArticals, setNewArticals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [visible, setVisible] = useState(true);
+  const [totalResults, setTotalResults] = useState(null);
 
   const getNews = async () => {
     let res = await fetch(url);
@@ -27,9 +24,10 @@ const News = (): JSX.Element => {
       setIsLoading(false);
     }
     setIsError(data.message);
+    setTotalResults(data.totalResults);
     setIsLoading(false);
     // console.log(url);
-    console.log({res, data});
+    console.log({data});
   };
   useEffect(() => {
     getNews();
@@ -39,7 +37,7 @@ const News = (): JSX.Element => {
   return (
     <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
       <Text className="text-base font-normal text-center my-2 text-black dark:text-white">
-        <Text className="font-semibold">NewsMoney</Text> - Top {name} Headlines
+        <Text className="font-semibold">NewsMoney</Text> - Top {query} Headlines
       </Text>
 
       {isLoading && (
@@ -52,7 +50,7 @@ const News = (): JSX.Element => {
 
       {isError && (
         <Snackbar
-          className="text-xs bg-slate-700"
+          className="text-xs bg-slate-700 mx-5"
           visible={visible}
           duration={300000}
           wrapperStyle={styles.SnackbarWrapper}
@@ -72,6 +70,28 @@ const News = (): JSX.Element => {
           </Text>
         </Snackbar>
       )}
+      {totalResults === 0 && (
+        <Snackbar
+          className="text-xs bg-slate-700 mx-5"
+          visible={visible}
+          duration={10000}
+          // eslint-disable-next-line react-native/no-inline-styles
+          wrapperStyle={{
+            position: 'absolute',
+            bottom: 150,
+          }}
+          onDismiss={() => setVisible(false)}
+          action={{
+            label: 'Close',
+            onPress: () => {
+              //
+            },
+          }}>
+          <Text className="font-normal text-base  text-red-400">
+            No result found for {query}
+          </Text>
+        </Snackbar>
+      )}
 
       {/* {NewArticals.map(item => (
           <NewsItem item={item} />
@@ -88,11 +108,11 @@ const News = (): JSX.Element => {
   );
 };
 
-export default News;
+export default SearchNews;
 
 const styles = StyleSheet.create({
   SnackbarWrapper: {
     position: 'absolute',
-    bottom: 100,
+    bottom: 200,
   },
 });

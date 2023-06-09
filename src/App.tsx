@@ -10,28 +10,38 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import News from './components/News';
+import Search from './components/Search';
 
 const Tab = createMaterialBottomTabNavigator();
+
+let todayDate = new Date()
+  .toLocaleDateString()
+  .split('/')
+  .reverse()
+  .map(value => value.padStart(2, '0'));
+
+todayDate[1] = (todayDate[1] - 1).toString().padStart(2, '0');
+todayDate = todayDate.join('-');
+console.log(todayDate);
 
 let country = 'in';
 // let pagesize = 16;
 let API_KEY = 'ec7735c4db74410f90ffeffaaa8bd570'; // My API_KEY
 // API_KEY = 'e93da7be7e134c76afa08f33b2b2b96b'; // Other API_KEY
-// API_KEY = '0c8d38e5a8ff4712a05ef4d14e5d80b0'; // Other API_KEY
+API_KEY = '0c8d38e5a8ff4712a05ef4d14e5d80b0'; // Other API_KEY
 // API_KEY = 'e93da7be7e134c76afa08f33b2b2b9'; // Wrong API_KEY
 
 const darkStatusBar = '#1e293b';
 const lightStatusBar = '#cbd5e1';
+const iconSize = 27;
 
 function App(): JSX.Element {
   const isDark = useColorScheme() === 'dark';
   const iconColor = isDark ? '#3b82f6' : '#1d4ed8';
-  const iconSize = 27;
   const screens = [
     {
       name: 'General',
       url: `https://newsapi.org/v2/top-headlines?country=${country}&category=general&apikey=${API_KEY}`,
-      // url: 'https://newsapi.org/v2/everything?q=pm%20modi&apiKey=ec7735c4db74410f90ffeffaaa8bd570',
       icon: <FontAwesome name="home" color={iconColor} size={iconSize} />,
       badgeColor: 'bg-blue-600',
     },
@@ -67,12 +77,6 @@ function App(): JSX.Element {
       ),
       badgeColor: 'bg-rose-500',
     },
-    // {
-    //   name: 'Search',
-    //   url: `https://newsapi.org/v2/top-headlines?country=${country}&category=hekalth&apikey=${API_KEY}`,
-    //   icon: <FontAwesome name="search" color={iconColor} size={iconSize} />,
-    //   badgeColor: 'bg-purple-600',
-    // },
     {
       name: 'Science',
       url: `https://newsapi.org/v2/top-headlines?country=${country}&category=science&apikey=${API_KEY}`,
@@ -109,7 +113,14 @@ function App(): JSX.Element {
       ),
       badgeColor: 'bg-orange-600',
     },
+    {
+      name: 'Search',
+      url: `https://newsapi.org/v2/everything?q=undefined&from=${todayDate}&sortBy=publishedAt&apikey=${API_KEY}`,
+      icon: <FontAwesome name="search" color={iconColor} size={iconSize} />,
+      badgeColor: 'bg-purple-600',
+    },
   ];
+
   return (
     <NavigationContainer>
       <StatusBar
@@ -131,7 +142,7 @@ function App(): JSX.Element {
           <Tab.Screen
             key={item.url}
             name={item.name}
-            component={News}
+            component={item.name === 'Search' ? Search : News}
             initialParams={{url: item.url, badgeColor: item.badgeColor}}
             options={{
               tabBarIcon: () => item.icon,
