@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React from 'react';
 import {StyleSheet, Vibration, useColorScheme} from 'react-native';
 
@@ -18,7 +17,7 @@ let country = 'in';
 let API_KEY = 'ec7735c4db74410f90ffeffaaa8bd570'; // My API_KEY
 // API_KEY = 'e93da7be7e134c76afa08f33b2b2b96b'; // Other API_KEY
 // API_KEY = '0c8d38e5a8ff4712a05ef4d14e5d80b0'; // Other API_KEY
-// // API_KEY = "e93da7be7e134c76afa08f33b2b2b9"; // Wrong API_KEY
+// API_KEY = 'e93da7be7e134c76afa08f33b2b2b9'; // Wrong API_KEY
 
 function App(): JSX.Element {
   const isDark = useColorScheme() === 'dark';
@@ -111,13 +110,10 @@ function App(): JSX.Element {
     <NavigationContainer>
       <Tab.Navigator
         initialRouteName="General"
-        // activeColor="red"
-        // inactiveColor="#0f172a"
         labeled={false}
-        // shifting={true}
+        shifting={true}
         screenListeners={() => {
-          // console.log('press');
-          Vibration.vibrate(30);
+          Vibration.vibrate(27);
         }}
         barStyle={[
           styles.bottomNavBar,
@@ -146,9 +142,8 @@ export default App;
 
 const styles = StyleSheet.create({
   bottomNavBar: {
-    // height: 55,
+    // height: 60,
     paddingHorizontal: 10,
-    justifyContent: 'space-between',
   },
   bgDark: {backgroundColor: '#0f172a'},
   bgLight: {backgroundColor: '#cbd5e1'},
