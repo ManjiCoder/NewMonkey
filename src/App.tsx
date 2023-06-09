@@ -26,10 +26,6 @@ console.log(todayDate);
 
 let country = 'in';
 // let pagesize = 16;
-let API_KEY = 'ec7735c4db74410f90ffeffaaa8bd570'; // My API_KEY
-// API_KEY = 'e93da7be7e134c76afa08f33b2b2b96b'; // Other API_KEY
-API_KEY = '0c8d38e5a8ff4712a05ef4d14e5d80b0'; // Other API_KEY
-// API_KEY = 'e93da7be7e134c76afa08f33b2b2b9'; // Wrong API_KEY
 
 const darkStatusBar = '#1e293b';
 const lightStatusBar = '#cbd5e1';
@@ -41,13 +37,13 @@ function App(): JSX.Element {
   const screens = [
     {
       name: 'General',
-      url: `https://newsapi.org/v2/top-headlines?country=${country}&category=general&apikey=${API_KEY}`,
+      url: `https://newsapi.org/v2/top-headlines?country=${country}&category=general&apikey=`,
       icon: <FontAwesome name="home" color={iconColor} size={iconSize} />,
       badgeColor: 'bg-blue-600',
     },
     {
       name: 'Entertainment',
-      url: `https://newsapi.org/v2/top-headlines?country=${country}&category=entertainment&apikey=${API_KEY}`,
+      url: `https://newsapi.org/v2/top-headlines?country=${country}&category=entertainment&apikey=`,
       icon: (
         <MaterialCommunityIcons
           name="movie-open-check"
@@ -59,7 +55,7 @@ function App(): JSX.Element {
     },
     {
       name: 'Bussiness',
-      url: `https://newsapi.org/v2/top-headlines?country=${country}&category=business&apikey=${API_KEY}`,
+      url: `https://newsapi.org/v2/top-headlines?country=${country}&category=business&apikey=`,
       icon: (
         <MaterialIcons name="attach-money" color={iconColor} size={iconSize} />
       ),
@@ -67,7 +63,7 @@ function App(): JSX.Element {
     },
     {
       name: 'Health',
-      url: `https://newsapi.org/v2/top-headlines?country=${country}&category=health&apikey=${API_KEY}`,
+      url: `https://newsapi.org/v2/top-headlines?country=${country}&category=health&apikey=`,
       icon: (
         <MaterialCommunityIcons
           name="heart-plus"
@@ -79,7 +75,7 @@ function App(): JSX.Element {
     },
     {
       name: 'Science',
-      url: `https://newsapi.org/v2/top-headlines?country=${country}&category=science&apikey=${API_KEY}`,
+      url: `https://newsapi.org/v2/top-headlines?country=${country}&category=science&apikey=`,
       icon: (
         <MaterialCommunityIcons
           name="electron-framework"
@@ -91,7 +87,7 @@ function App(): JSX.Element {
     },
     {
       name: 'Sports',
-      url: `https://newsapi.org/v2/top-headlines?country=${country}&category=sports&apikey=${API_KEY}`,
+      url: `https://newsapi.org/v2/top-headlines?country=${country}&category=sports&apikey=`,
       icon: (
         <MaterialIcons
           name="sports-esports"
@@ -103,7 +99,7 @@ function App(): JSX.Element {
     },
     {
       name: 'Technology',
-      url: `https://newsapi.org/v2/top-headlines?country=${country}&category=technology&apikey=${API_KEY}`,
+      url: `https://newsapi.org/v2/top-headlines?country=${country}&category=technology&apikey=`,
       icon: (
         <MaterialCommunityIcons
           name="robot-happy"
@@ -115,7 +111,7 @@ function App(): JSX.Element {
     },
     {
       name: 'Search',
-      url: `https://newsapi.org/v2/everything?q=undefined&from=${todayDate}&sortBy=publishedAt&apikey=${API_KEY}`,
+      url: `https://newsapi.org/v2/everything?q=undefined&from=${todayDate}&sortBy=publishedAt&apikey=`,
       icon: <FontAwesome name="search" color={iconColor} size={iconSize} />,
       badgeColor: 'bg-purple-600',
     },
@@ -148,7 +144,6 @@ function App(): JSX.Element {
               tabBarIcon: () => item.icon,
               tabBarColor: 'red',
               tabBarAccessibilityLabel: item.name,
-              // tabBarBadge: true, // like notification in whatsapp
             }}
           />
         ))}
