@@ -12,7 +12,7 @@ const Search = () => {
   const [isSearch, setIsSearch] = useState(false);
 
   useEffect(() => {
-    // console.log('Iam loading');
+    console.log('Iam loading');
   }, [isSearch]);
 
   return (
@@ -26,9 +26,17 @@ const Search = () => {
         iconColor="#1e293b"
         className="mx-5 mt-2 h-11"
         onIconPress={() => {
+          if (searchQuery.trim() === '') {
+            setSearchQuery('');
+            return;
+          }
           setIsSearch(searchQuery);
         }}
         onSubmitEditing={() => {
+          if (searchQuery.trim() === '') {
+            setSearchQuery('');
+            return;
+          }
           setIsSearch(searchQuery);
         }}
       />
@@ -39,7 +47,11 @@ const Search = () => {
             encodeURIComponent(isSearch.trim().toLowerCase()),
           )}
           badgeColor={badgeColor}
-          query={isSearch}
+          query={
+            isSearch.trim() === ''
+              ? setIsSearch('')
+              : isSearch.trim().toLowerCase()
+          }
         />
       )}
     </View>

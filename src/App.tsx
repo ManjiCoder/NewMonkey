@@ -38,6 +38,7 @@ function App(): JSX.Element {
     {
       name: 'General',
       url: `https://newsapi.org/v2/top-headlines?country=${country}&category=general&apikey=`,
+      // url: `https://newsapi.org/v2/top-headlines?country=${country}`,
       icon: <FontAwesome name="home" color={iconColor} size={iconSize} />,
       badgeColor: 'bg-blue-600',
     },
@@ -128,7 +129,7 @@ function App(): JSX.Element {
         labeled={false}
         shifting={true}
         screenListeners={() => {
-          Vibration.vibrate(18);
+          Vibration.vibrate(20);
         }}
         barStyle={[
           styles.bottomNavBar,
