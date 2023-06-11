@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-import {View, FlatList} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import {View, FlatList, RefreshControl} from 'react-native';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import NewsItem from './NewsItem';
 import NewsHeading from './NewsHeading';
 import Loader from './Loader';
@@ -23,6 +23,7 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
   const [isError, setIsError] = useState(false);
   const [totalResults, setTotalResults] = useState(null);
   const [API, setAPI] = useState(API_KEY);
+  const [refreshing, setRefreshing] = useState(false);
 
   const getNews = async () => {
     // API Call
@@ -42,6 +43,15 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
     getNews(API);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      getNews(API);
+    }, 2000);
+    // console.log('useCallback');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
@@ -63,6 +73,9 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
           renderItem={({item}) => <NewsItem item={item} color={badgeColor} />}
           keyExtractor={item => item.url}
           ref={ref}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         />
       )}
     </View>
