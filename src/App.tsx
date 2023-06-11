@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {StatusBar, StyleSheet, Vibration, useColorScheme} from 'react-native';
+import {StatusBar, StyleSheet, useColorScheme} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import {trigger} from 'react-native-haptic-feedback';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -14,6 +15,10 @@ import Search from './components/Search';
 
 const Tab = createMaterialBottomTabNavigator();
 
+const options = {
+  enableVibrateFallback: false,
+  ignoreAndroidSystemSettings: true,
+};
 let toDate = new Date().toISOString().split('T')[0];
 let fromDate = toDate.split('-');
 fromDate[1] = (fromDate[1] - 1).toString().padStart(2, '0');
@@ -121,11 +126,13 @@ function App(): JSX.Element {
         backgroundColor={isDark ? darkStatusBar : lightStatusBar}
       />
       <Tab.Navigator
-        initialRouteName="General"
+        // initialRouteName="General"
+        initialRouteName="Search"
         labeled={false}
         shifting={true}
         screenListeners={() => {
-          Vibration.vibrate(20);
+          // Vibration.vibrate(11);
+          trigger('impactLight', options);
         }}
         barStyle={[
           styles.bottomNavBar,

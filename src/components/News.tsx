@@ -34,9 +34,9 @@ function News(): JSX.Element {
   const [isConnect, setIsConnect] = useState(null);
 
   const getNews = async api => {
-    console.log('getNews called');
     // API Call
-    const {isConnected, isInternetReachable} = await NetInfo.fetch();
+    const {isConnected, isInternetReachable, details} = await NetInfo.fetch();
+    console.log('getNews called', {details, isConnected, isInternetReachable});
     if (isConnected && isInternetReachable) {
       setIsConnect(true);
       let res = await fetch(url + api);
