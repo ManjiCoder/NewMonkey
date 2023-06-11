@@ -42,17 +42,19 @@ function News(): JSX.Element {
       if (res.ok) {
         setNewArticals(data.articles);
         setIsLoading(false);
+        return true;
       }
       setIsError(data.message);
       setIsLoading(false);
-      return;
     }
     setIsLoading(false);
     setIsConnect(false);
     // console.log(data.totalResults);
+    return false;
   };
   useEffect(() => {
-    getNews();
+    const data = getNews();
+    console.log(data);
     // console.log('useEffect');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -81,6 +83,7 @@ function News(): JSX.Element {
       {isConnect === false && (
         <ShowErrorSnackBar
           msg={"OOPS! It's seems that your internet is not available"}
+          getNews={getNews}
         />
       )}
 

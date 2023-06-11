@@ -10,6 +10,7 @@ import ServerButton from './ServerButton';
 import {useScrollToTop} from '@react-navigation/native';
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NotFound from './NotFound';
 
 const SearchNews = ({url, badgeColor, query}): JSX.Element => {
   // console.log({query});
@@ -38,9 +39,11 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
       setIsError(data.message);
       setTotalResults(data.totalResults);
       setIsLoading(false);
-      return;
+      return true;
     }
     setIsConnect(false);
+    setIsLoading(false);
+    return false;
   };
 
   useEffect(() => {
@@ -72,12 +75,13 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
       )}
 
       {totalResults === 0 && (
-        <ShowErrorSnackBar msg={`Sorry, we found nothing for ${query}`} />
+        <NotFound msg={`Sorry, we found nothing for ${query}`} />
       )}
 
       {isConnect === false && (
         <ShowErrorSnackBar
           msg={"OOPS! It's seems that your internet is not available"}
+          getNews={getNews}
         />
       )}
       {!isLoading && !isError && (
