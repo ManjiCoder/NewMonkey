@@ -3,18 +3,14 @@ import {View, FlatList, RefreshControl} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import NewsItem from './NewsItem';
 import {useRoute, useScrollToTop} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import NewsHeading from './NewsHeading';
 import Loader from './Loader';
 import SnackBar from './SnackBar';
 import ServerButton from './ServerButton';
 import NetInfo from '@react-native-community/netinfo';
 import ShowErrorSnackBar from './ShowErrorSnackBar';
-
-// APIs
-let API_KEY = 'ec7735c4db74410f90ffeffaaa8bd570'; // My API_KEY
-// API_KEY = 'e93da7be7e134c76afa08f33b2b2b96b'; // Other API_KEY
-
-// API_KEY = 'e93da7be7e134c76afa08f33b2b2b9'; // Wrong API_KEY
 
 function News(): JSX.Element {
   const route = useRoute();
@@ -28,19 +24,19 @@ function News(): JSX.Element {
   const [NewArticals, setNewArticals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-  const [API, setAPI] = useState(API_KEY);
   const [refreshing, setRefreshing] = useState(false);
 
   const [isConnect, setIsConnect] = useState(null);
 
-  const getNews = async api => {
+  const getNews = async () => {
     // API Call
-    const {isConnected, isInternetReachable, details} = await NetInfo.fetch();
-    console.log('getNews called', {details, isConnected, isInternetReachable});
+    const {isConnected, isInternetReachable} = await NetInfo.fetch();
+    // console.log('getNews called', { isConnected, isInternetReachable});
     if (isConnected && isInternetReachable) {
       setIsConnect(true);
-      let res = await fetch(url + api);
-      setAPI(api);
+      const API = await AsyncStorage.getItem('API');
+      console.log({API});
+      let res = await fetch(url + API);
       // console.log({API, api});
       let data = await res.json();
       if (res.ok) {
@@ -56,7 +52,7 @@ function News(): JSX.Element {
     // console.log(data.totalResults);
   };
   useEffect(() => {
-    getNews(API);
+    getNews();
     // console.log('useEffect');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -82,7 +78,7 @@ function News(): JSX.Element {
           <ServerButton getNews={getNews} />
         </SnackBar>
       )}
-      {!isConnect && (
+      {isConnect === false && (
         <ShowErrorSnackBar
           msg={"OOPS! It's seems that your internet is not available"}
         />

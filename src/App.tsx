@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StatusBar, StyleSheet, useColorScheme} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
@@ -12,6 +12,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import News from './components/News';
 import Search from './components/Search';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -118,6 +119,26 @@ function App(): JSX.Element {
       badgeColor: 'bg-purple-600',
     },
   ];
+  const setString = async () => {
+    try {
+      await AsyncStorage.setItem('API', 'ec7735c4db74410f90ffeffaaa8bd570');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getString = async () => {
+    try {
+      const data = await AsyncStorage.getItem('API');
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    setString();
+    getString();
+  }, []);
 
   return (
     <NavigationContainer>
@@ -126,13 +147,11 @@ function App(): JSX.Element {
         backgroundColor={isDark ? darkStatusBar : lightStatusBar}
       />
       <Tab.Navigator
-        // initialRouteName="General"
-        initialRouteName="Search"
+        initialRouteName="General"
         labeled={false}
         shifting={true}
         screenListeners={() => {
-          // Vibration.vibrate(11);
-          trigger('impactLight', options);
+          trigger('soft', options);
         }}
         barStyle={[
           styles.bottomNavBar,
