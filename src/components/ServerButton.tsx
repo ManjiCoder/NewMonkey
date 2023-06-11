@@ -13,14 +13,14 @@ function ServerButton({getNews}) {
       </Text>
       <View className="flex-row flex-wrap gap-3">
         <TouchableOpacity
-          className="bg-blue-700 py-2 px-3 w-28 shadow-md rounded-full "
+          className="bg-blue-600 py-2 px-3 w-28 shadow-md rounded-full "
           onPress={() => getNews(API_KEY_2)}>
-          <Text className="text-center text-white font-thin">Server - 1</Text>
+          <Text className="text-center text-white font-normal">Server - 1</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          className="bg-blue-700 py-2 px-3 w-28 shadow-md rounded-full "
+          className="bg-blue-600 py-2 px-3 w-28 shadow-md rounded-full "
           onPress={() => getNews(API_KEY_3)}>
-          <Text className="text-center text-white font-thin">Server - 2</Text>
+          <Text className="text-center text-white font-normal">Server - 2</Text>
         </TouchableOpacity>
       </View>
     </View>

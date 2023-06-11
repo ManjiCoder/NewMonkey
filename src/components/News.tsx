@@ -7,14 +7,16 @@ import NewsHeading from './NewsHeading';
 import Loader from './Loader';
 import SnackBar from './SnackBar';
 import ServerButton from './ServerButton';
+import NetInfo from '@react-native-community/netinfo';
+import ShowErrorSnackBar from './ShowErrorSnackBar';
 
 // APIs
 let API_KEY = 'ec7735c4db74410f90ffeffaaa8bd570'; // My API_KEY
-API_KEY = 'e93da7be7e134c76afa08f33b2b2b96b'; // Other API_KEY
+// API_KEY = 'e93da7be7e134c76afa08f33b2b2b96b'; // Other API_KEY
 
 // API_KEY = 'e93da7be7e134c76afa08f33b2b2b9'; // Wrong API_KEY
 
-const News = (): JSX.Element => {
+function News(): JSX.Element {
   const route = useRoute();
   const {name} = route;
   const {url, badgeColor} = route.params;
@@ -29,18 +31,28 @@ const News = (): JSX.Element => {
   const [API, setAPI] = useState(API_KEY);
   const [refreshing, setRefreshing] = useState(false);
 
+  const [isConnect, setIsConnect] = useState(null);
+
   const getNews = async api => {
+    console.log('getNews called');
     // API Call
-    let res = await fetch(url + api);
-    setAPI(api);
-    // console.log({API, api});
-    let data = await res.json();
-    if (res.ok) {
-      setNewArticals(data.articles);
+    const {isConnected, isInternetReachable} = await NetInfo.fetch();
+    if (isConnected && isInternetReachable) {
+      setIsConnect(true);
+      let res = await fetch(url + api);
+      setAPI(api);
+      // console.log({API, api});
+      let data = await res.json();
+      if (res.ok) {
+        setNewArticals(data.articles);
+        setIsLoading(false);
+      }
+      setIsError(data.message);
       setIsLoading(false);
+      return;
     }
-    setIsError(data.message);
     setIsLoading(false);
+    setIsConnect(false);
     // console.log(data.totalResults);
   };
   useEffect(() => {
@@ -70,6 +82,11 @@ const News = (): JSX.Element => {
           <ServerButton getNews={getNews} />
         </SnackBar>
       )}
+      {!isConnect && (
+        <ShowErrorSnackBar
+          msg={"OOPS! It's seems that your internet is not available"}
+        />
+      )}
 
       {!isLoading && !isError && (
         <FlatList
@@ -85,6 +102,6 @@ const News = (): JSX.Element => {
       )}
     </View>
   );
-};
+}
 
 export default News;
