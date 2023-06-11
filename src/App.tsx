@@ -14,15 +14,11 @@ import Search from './components/Search';
 
 const Tab = createMaterialBottomTabNavigator();
 
-let todayDate = new Date()
-  .toLocaleDateString()
-  .split('/')
-  .reverse()
-  .map(value => value.padStart(2, '0'));
-
-todayDate[1] = (todayDate[1] - 1).toString().padStart(2, '0');
-todayDate = todayDate.join('-');
-// console.log(todayDate);
+let toDate = new Date().toISOString().split('T')[0];
+let fromDate = toDate.split('-');
+fromDate[1] = (fromDate[1] - 1).toString().padStart(2, '0');
+fromDate = fromDate.join('-');
+// console.log(fromDate, toDate);
 
 let country = 'in';
 // let pagesize = 16;
@@ -112,7 +108,7 @@ function App(): JSX.Element {
     },
     {
       name: 'Search',
-      url: `https://newsapi.org/v2/everything?q=undefined&from=${todayDate}&sortBy=publishedAt&apikey=`,
+      url: `https://newsapi.org/v2/everything?q=undefined&from=${fromDate}to=${toDate}&sortBy=publishedAt&apikey=`,
       icon: <FontAwesome name="search" color={iconColor} size={iconSize} />,
       badgeColor: 'bg-purple-600',
     },

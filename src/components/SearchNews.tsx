@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
 import {View, FlatList} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import NewsItem from './NewsItem';
 import NewsHeading from './NewsHeading';
 import Loader from './Loader';
 import ShowErrorSnackBar from './ShowErrorSnackBar';
 import SnackBar from './SnackBar';
 import ServerButton from './ServerButton';
+import {useScrollToTop} from '@react-navigation/native';
 
 // APIs
 let API_KEY = 'ec7735c4db74410f90ffeffaaa8bd570'; // My API_KEY
@@ -15,6 +16,8 @@ API_KEY = 'e93da7be7e134c76afa08f33b2b2b96b';
 
 const SearchNews = ({url, badgeColor, query}): JSX.Element => {
   console.log({query});
+  const ref = useRef(null);
+  useScrollToTop(ref);
   const [NewArticals, setNewArticals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -59,6 +62,7 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
           data={NewArticals}
           renderItem={({item}) => <NewsItem item={item} color={badgeColor} />}
           keyExtractor={item => item.url}
+          ref={ref}
         />
       )}
     </View>

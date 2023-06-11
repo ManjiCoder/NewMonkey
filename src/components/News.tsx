@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import {View, FlatList} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import NewsItem from './NewsItem';
-import {useRoute} from '@react-navigation/native';
+import {useRoute, useScrollToTop} from '@react-navigation/native';
 import NewsHeading from './NewsHeading';
 import Loader from './Loader';
 import SnackBar from './SnackBar';
@@ -18,6 +18,10 @@ const News = (): JSX.Element => {
   const route = useRoute();
   const {name} = route;
   const {url, badgeColor} = route.params;
+
+  // Scroll to top
+  const ref = useRef(null);
+  useScrollToTop(ref);
 
   const [NewArticals, setNewArticals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -61,6 +65,7 @@ const News = (): JSX.Element => {
           data={NewArticals}
           renderItem={({item}) => <NewsItem item={item} color={badgeColor} />}
           keyExtractor={item => item.url}
+          ref={ref}
         />
       )}
     </View>
