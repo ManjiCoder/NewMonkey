@@ -33,7 +33,7 @@ const News = (): JSX.Element => {
     // API Call
     let res = await fetch(url + api);
     setAPI(api);
-    console.log({API, api});
+    // console.log({API, api});
     let data = await res.json();
     if (res.ok) {
       setNewArticals(data.articles);
@@ -41,8 +41,7 @@ const News = (): JSX.Element => {
     }
     setIsError(data.message);
     setIsLoading(false);
-    // console.log(url);
-    // console.log({res, data});
+    // console.log(data.totalResults);
   };
   useEffect(() => {
     getNews(API);
@@ -55,7 +54,7 @@ const News = (): JSX.Element => {
     setTimeout(() => {
       setRefreshing(false);
       getNews(API);
-    }, 2000);
+    }, 500);
     // console.log('useCallback');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -81,6 +80,7 @@ const News = (): JSX.Element => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
+          className="mb-32"
         />
       )}
     </View>

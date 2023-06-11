@@ -15,7 +15,7 @@ API_KEY = 'e93da7be7e134c76afa08f33b2b2b96b';
 // API_KEY = 'e93da7be7e134c76afa08f33b2b2b9'; // Wrong API_KEY
 
 const SearchNews = ({url, badgeColor, query}): JSX.Element => {
-  console.log({query});
+  // console.log({query});
   const ref = useRef(null);
   useScrollToTop(ref);
   const [NewArticals, setNewArticals] = useState([]);
@@ -36,10 +36,11 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
     setIsError(data.message);
     setTotalResults(data.totalResults);
     setIsLoading(false);
+    // console.log(data.totalResults);
   };
 
   useEffect(() => {
-    console.log('Iam fetching', query);
+    // console.log('Iam fetching', query);
     getNews(API);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
@@ -48,7 +49,7 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
     setTimeout(() => {
       setRefreshing(false);
       getNews(API);
-    }, 2000);
+    }, 500);
     // console.log('useCallback');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -76,6 +77,7 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
+          className="mb-32"
         />
       )}
     </View>
