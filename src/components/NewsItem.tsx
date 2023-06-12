@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   View,
   Text,
@@ -11,10 +10,9 @@ import React from 'react';
 import Feather from 'react-native-vector-icons/dist/Feather';
 
 const NewsItem = ({item, color}) => {
-  // console.log(item.urlToImage);
   // To Open NewUrl in Browser
   const handleReadMore = async (url: string) => {
-    console.log(url);
+    // console.log(url);
     await Linking.openURL(url);
   };
 

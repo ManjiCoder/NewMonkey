@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {View, FlatList, RefreshControl} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import NewsItem from './NewsItem';
@@ -63,7 +62,7 @@ function News(): JSX.Element {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
-      getNews(API);
+      getNews();
     }, 500);
     // console.log('useCallback');
     // eslint-disable-next-line react-hooks/exhaustive-deps

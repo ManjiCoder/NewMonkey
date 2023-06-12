@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {View, FlatList, RefreshControl} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import NewsItem from './NewsItem';

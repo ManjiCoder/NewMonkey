@@ -1,6 +1,6 @@
-/* eslint-disable prettier/prettier */
 import React, {useEffect} from 'react';
-import {StatusBar, StyleSheet, useColorScheme} from 'react-native';
+import {Pressable, StatusBar, StyleSheet, View} from 'react-native';
+import {useColorScheme} from 'nativewind';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
@@ -9,6 +9,7 @@ import {trigger} from 'react-native-haptic-feedback';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Feather from 'react-native-vector-icons/Feather';
 
 import News from './components/News';
 import Search from './components/Search';
@@ -20,6 +21,7 @@ const options = {
   enableVibrateFallback: false,
   ignoreAndroidSystemSettings: true,
 };
+
 let toDate = new Date().toISOString().split('T')[0];
 let fromDate = toDate.split('-');
 fromDate[1] = (fromDate[1] - 1).toString().padStart(2, '0');
@@ -34,7 +36,9 @@ const lightStatusBar = '#cbd5e1';
 const iconSize = 27;
 
 function App(): JSX.Element {
-  const isDark = useColorScheme() === 'dark';
+  const {colorScheme, toggleColorScheme} = useColorScheme();
+  const isDark = colorScheme === 'dark';
+  console.log({colorScheme, toggleColorScheme});
   const iconColor = isDark ? '#3b82f6' : '#1d4ed8';
   const screens = [
     {
@@ -119,6 +123,7 @@ function App(): JSX.Element {
       badgeColor: 'bg-purple-600',
     },
   ];
+
   const setString = async () => {
     try {
       await AsyncStorage.setItem('API', 'ec7735c4db74410f90ffeffaaa8bd570');
@@ -126,10 +131,11 @@ function App(): JSX.Element {
       console.log(error);
     }
   };
+
   const getString = async () => {
     try {
-      const data = await AsyncStorage.getItem('API');
-      console.log(data);
+      await AsyncStorage.getItem('API');
+      // console.log({data});
     } catch (error) {
       console.log(error);
     }
@@ -146,31 +152,47 @@ function App(): JSX.Element {
         barStyle={isDark ? 'light-content' : 'dark-content'}
         backgroundColor={isDark ? darkStatusBar : lightStatusBar}
       />
-      <Tab.Navigator
-        initialRouteName="General"
-        labeled={false}
-        shifting={true}
-        screenListeners={() => {
-          trigger('soft', options);
-        }}
-        barStyle={[
-          styles.bottomNavBar,
-          isDark ? styles.bgDark : styles.bgLight,
-        ]}>
-        {screens.map(item => (
-          <Tab.Screen
-            key={item.url}
-            name={item.name}
-            component={item.name === 'Search' ? Search : News}
-            initialParams={{url: item.url, badgeColor: item.badgeColor}}
-            options={{
-              tabBarIcon: () => item.icon,
-              tabBarColor: 'red',
-              tabBarAccessibilityLabel: item.name,
+      <View className="min-h-screen dark">
+        <View className="absolute z-10 right-3 overflow-hidden top-1.5 rounded-full bg-slate-200 dark:bg-slate-900 ">
+          <Pressable
+            android_ripple={{
+              color: isDark ? lightStatusBar : darkStatusBar,
             }}
-          />
-        ))}
-      </Tab.Navigator>
+            className="p-1"
+            onPress={() => toggleColorScheme()}>
+            <Feather
+              name={isDark ? 'moon' : 'sun'}
+              size={25}
+              color={isDark ? 'white' : 'black'}
+            />
+          </Pressable>
+        </View>
+        <Tab.Navigator
+          initialRouteName="General"
+          labeled={false}
+          shifting={true}
+          screenListeners={() => {
+            trigger('soft', options);
+          }}
+          barStyle={[
+            styles.bottomNavBar,
+            isDark ? styles.bgDark : styles.bgLight,
+          ]}>
+          {screens.map(item => (
+            <Tab.Screen
+              key={item.url}
+              name={item.name}
+              component={item.name === 'Search' ? Search : News}
+              initialParams={{url: item.url, badgeColor: item.badgeColor}}
+              options={{
+                tabBarIcon: () => item.icon,
+                tabBarColor: 'red',
+                tabBarAccessibilityLabel: item.name,
+              }}
+            />
+          ))}
+        </Tab.Navigator>
+      </View>
     </NavigationContainer>
   );
 }

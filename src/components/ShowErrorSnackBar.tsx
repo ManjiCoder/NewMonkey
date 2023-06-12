@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {Text, StyleSheet, View, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {Snackbar} from 'react-native-paper';

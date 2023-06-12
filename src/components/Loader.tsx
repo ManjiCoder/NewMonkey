@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React from 'react';
 import {ActivityIndicator} from 'react-native-paper';
 import {useColorScheme} from 'react-native';
