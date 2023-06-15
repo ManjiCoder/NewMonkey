@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {StyleSheet, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Searchbar} from 'react-native-paper';
