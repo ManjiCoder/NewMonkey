@@ -46,15 +46,14 @@ function News(): JSX.Element {
       }
       setIsError(data.message);
       setIsLoading(false);
+    } else if ((isConnect || isInternetReachable) === false) {
+      setIsConnect(false);
     }
     setIsLoading(false);
-    setIsConnect(false);
     // console.log(data.totalResults);
-    return false;
   };
   useEffect(() => {
-    const data = getNews();
-    console.log(data);
+    getNews();
     // console.log('useEffect');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -63,7 +62,7 @@ function News(): JSX.Element {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
-      getNews(API);
+      getNews();
     }, 500);
     // console.log('useCallback');
     // eslint-disable-next-line react-hooks/exhaustive-deps
