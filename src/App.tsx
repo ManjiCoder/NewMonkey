@@ -141,7 +141,10 @@ function App(): JSX.Element {
         barStyle={isDark ? 'light-content' : 'dark-content'}
         backgroundColor={isDark ? darkStatusBar : lightStatusBar}
       />
-      {/* <View className="dark"> */}
+      <View
+        className={`${
+          isDark && 'dark'
+        } min-h-screen bg-slate-300 dark:bg-slate-800`}>
         <View className="absolute z-10 right-3 overflow-hidden top-1.5 rounded-full bg-slate-200 dark:bg-slate-900 ">
           <Pressable
             android_ripple={{
@@ -157,7 +160,7 @@ function App(): JSX.Element {
           </Pressable>
         </View>
         <Tab.Navigator
-          initialRouteName="General"
+          initialRouteName="Bussiness"
           labeled={false}
           shifting={true}
           screenListeners={() => {
@@ -181,7 +184,7 @@ function App(): JSX.Element {
             />
           ))}
         </Tab.Navigator>
-      {/* </View> */}
+      </View>
     </NavigationContainer>
   );
 }

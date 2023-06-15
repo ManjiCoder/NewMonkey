@@ -18,13 +18,13 @@ const Search = () => {
   return (
     <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
       <Searchbar
-        placeholder={'Search "Ratan Tata"'}
+        placeholder={'Search "Ratan Tata" - NewsMoney'}
         placeholderTextColor={'gray'}
         onChangeText={query => setSearchQuery(query)}
         value={searchQuery}
         inputStyle={styles.input}
         iconColor="#1e293b"
-        className="mx-5 mt-2 h-11"
+        className="mx-5 mt-0 h-10 mr-14"
         onIconPress={() => {
           if (searchQuery.trim() === '') {
             setSearchQuery('');
