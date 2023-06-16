@@ -30,7 +30,7 @@ function News(): JSX.Element {
   const [page, setPage] = useState(1);
   const totalResults = useRef(null);
 
-  let pageSize = 6;
+  let pageSize = 18;
   const [isConnect, setIsConnect] = useState(null);
 
   const getNews = async () => {
@@ -76,7 +76,10 @@ function News(): JSX.Element {
 
   const fetchMore = async () => {
     setIsFetching(true);
-    if (NewArticals.length >= 100 || NewArticals.length <= totalResults) {
+    if (
+      NewArticals.length >= 100 ||
+      NewArticals.length <= totalResults.current
+    ) {
       setIsFetching(false);
       return;
     }

@@ -11,26 +11,33 @@ import {useScrollToTop} from '@react-navigation/native';
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NotFound from './NotFound';
+import BottomLoader from './BottomLoader';
 
 const SearchNews = ({url, badgeColor, query}): JSX.Element => {
   // console.log({query});
   const ref = useRef(null);
   useScrollToTop(ref);
   const [NewArticals, setNewArticals] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
   const [isError, setIsError] = useState(false);
-  const [totalResults, setTotalResults] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [page, setPage] = useState(1);
+
+  let pageSize = 18;
   const [isConnect, setIsConnect] = useState(null);
+  const [totalResults, setTotalResults] = useState(null);
 
   const getNews = async () => {
+    setIsLoading(true);
     // API Call
     const {isConnected, isInternetReachable} = await NetInfo.fetch();
     // console.log({isConnected, isInternetReachable});
     if (isConnected && isInternetReachable) {
       setIsConnect(true);
       const API = await AsyncStorage.getItem('API');
-      let res = await fetch(url + API);
+      let res = await fetch(`${url}${API}&page=${page}&pagesize=${pageSize}`);
+      console.log(`${url}${API}&page=${page}&pagesize=${pageSize}`);
       let data = await res.json();
       if (res.ok) {
         setNewArticals(data.articles);
@@ -43,7 +50,6 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
     }
     setIsConnect(false);
     setIsLoading(false);
-    return false;
   };
 
   useEffect(() => {
@@ -56,11 +62,44 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
-      getNews(API);
+      getNews();
     }, 500);
     // console.log('useCallback');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const fetchMore = async () => {
+    setIsFetching(true);
+    if (NewArticals.length >= 100 && NewArticals.length <= totalResults) {
+      setIsFetching(false);
+      return;
+    }
+    // API Call
+    const {isConnected, isInternetReachable} = await NetInfo.fetch();
+    if (isConnected && isInternetReachable) {
+      setPage(page + 1);
+      setIsConnect(true);
+      const API = await AsyncStorage.getItem('API');
+      let res = await fetch(
+        `${url}${API}&page=${page + 1}&pagesize=${pageSize}`,
+      );
+      let data = await res.json();
+      console.log(
+        `&page=${page + 1}&pagesize=${pageSize}`,
+        data.totalResults,
+        NewArticals.length,
+      );
+      if (res.ok) {
+        setNewArticals(NewArticals.concat(data.articles));
+        setIsFetching(false);
+        return true;
+      }
+      setIsError(data.message);
+    } else if ((isConnect || isInternetReachable) === false) {
+      setIsConnect(false);
+    }
+    setIsFetching(false);
+  };
 
   return (
     <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
@@ -93,9 +132,12 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          className="mb-32"
+          onEndReached={fetchMore}
+          onEndReachedThreshold={1}
+          className="mb-64"
         />
       )}
+      {isFetching && <BottomLoader />}
     </View>
   );
 };
