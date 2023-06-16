@@ -11,11 +11,11 @@ const BottomLoader = () => {
   const {colorScheme} = useColorScheme();
   const isDark = colorScheme === 'dark';
   return (
-    <View className="justify-center items-center">
+    <View className="h-11 flex-row justify-center items-center mb-20">
       <ActivityIndicator
         color={isDark ? lightStatusBar : darkStatusBar}
         size={'small'}
-        className="fixed bottom-40"
+        className="absolute z-50 bottom-44"
       />
     </View>
   );

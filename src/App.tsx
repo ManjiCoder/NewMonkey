@@ -36,7 +36,7 @@ const lightStatusBar = '#cbd5e1';
 const iconSize = 27;
 
 function App(): JSX.Element {
-  const {colorScheme, toggleColorScheme} = useColorScheme();
+  const {colorScheme, setColorScheme, toggleColorScheme} = useColorScheme();
   const isDark = colorScheme === 'dark';
   // const isDark = useColorScheme() === 'dark';
   const iconColor = isDark ? '#3b82f6' : '#1d4ed8';
@@ -123,6 +123,7 @@ function App(): JSX.Element {
       badgeColor: 'bg-purple-600',
     },
   ];
+
   const setApi = async () => {
     const api = await AsyncStorage.getItem('API');
     if (!api) {
@@ -132,9 +133,24 @@ function App(): JSX.Element {
     }
   };
 
+  const setTheme = async () => {
+    const mode = await AsyncStorage.getItem('theme');
+    if (mode) {
+      setColorScheme(mode);
+    }
+  };
+
   useEffect(() => {
+    setTheme();
     setApi();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleTheme = async () => {
+    toggleColorScheme();
+    await AsyncStorage.setItem('theme', isDark ? 'light' : 'dark');
+  };
 
   return (
     <NavigationContainer>
@@ -148,7 +164,7 @@ function App(): JSX.Element {
             color: isDark ? lightStatusBar : darkStatusBar,
           }}
           className="p-1"
-          onPress={() => toggleColorScheme()}>
+          onPress={handleTheme}>
           <Feather
             name={isDark ? 'moon' : 'sun'}
             size={25}

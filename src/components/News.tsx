@@ -28,8 +28,9 @@ function News(): JSX.Element {
   const [isError, setIsError] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(1);
+  const totalResults = useRef(null);
 
-  let pageSize = 16;
+  let pageSize = 6;
   const [isConnect, setIsConnect] = useState(null);
 
   const getNews = async () => {
@@ -39,12 +40,15 @@ function News(): JSX.Element {
     if (isConnected && isInternetReachable) {
       setIsConnect(true);
       const API = await AsyncStorage.getItem('API');
+      console.log({API});
       let res = await fetch(`${url}${API}&page=${page}&pagesize=${pageSize}`);
       console.log(`${url}${API}&page=${page}&pagesize=${pageSize}`);
       let data = await res.json();
       if (res.ok) {
         setNewArticals(data.articles);
+        console.log(data.articles.length, data.totalResults);
         setIsLoading(false);
+        totalResults.current = data.articles.length;
         return true;
       }
       setIsError(data.message);
@@ -72,8 +76,7 @@ function News(): JSX.Element {
 
   const fetchMore = async () => {
     setIsFetching(true);
-    if (NewArticals.length >= 10) {
-      // console.log('len', NewArticals.length);
+    if (NewArticals.length >= 100 || NewArticals.length <= totalResults) {
       setIsFetching(false);
       return;
     }
@@ -88,7 +91,7 @@ function News(): JSX.Element {
       );
       let data = await res.json();
       console.log(
-        `${url}${API}&page=${page + 1}&pagesize=${pageSize}`,
+        `&page=${page + 1}&pagesize=${pageSize}`,
         data.totalResults,
         NewArticals.length,
       );
@@ -133,7 +136,7 @@ function News(): JSX.Element {
           }
           onEndReached={fetchMore}
           onEndReachedThreshold={1}
-          className="mb-36"
+          className="mb-28"
         />
       )}
 

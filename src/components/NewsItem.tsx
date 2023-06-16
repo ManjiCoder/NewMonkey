@@ -20,7 +20,7 @@ const NewsItem = ({item, color}) => {
 
   return (
     <View
-      className="mx-7 mb-7 bg-slate-50 dark:bg-slate-900 rounded-md flex"
+      className="mx-7 mb-12 bg-slate-50 dark:bg-slate-900 rounded-md flex"
       style={styles.elevation}>
       <Text
         className={`absolute top-0 z-10 right-0 ${color} py-1 px-2 text-[9px] font-semibold rounded-md text-white`}>
