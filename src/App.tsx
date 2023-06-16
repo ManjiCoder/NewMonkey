@@ -29,7 +29,7 @@ fromDate = fromDate.join('-');
 // console.log(fromDate, toDate);
 
 let country = 'in';
-// let pagesize = 16;
+// let lang = 'ar';
 
 const darkStatusBar = '#1e293b';
 const lightStatusBar = '#cbd5e1';
@@ -38,6 +38,7 @@ const iconSize = 27;
 function App(): JSX.Element {
   const {colorScheme, toggleColorScheme} = useColorScheme();
   const isDark = colorScheme === 'dark';
+  // const isDark = useColorScheme() === 'dark';
   const iconColor = isDark ? '#3b82f6' : '#1d4ed8';
   const screens = [
     {
@@ -141,50 +142,45 @@ function App(): JSX.Element {
         barStyle={isDark ? 'light-content' : 'dark-content'}
         backgroundColor={isDark ? darkStatusBar : lightStatusBar}
       />
-      <View
-        className={`${
-          isDark && 'dark'
-        } min-h-screen bg-slate-300 dark:bg-slate-800`}>
-        <View className="absolute z-10 right-3 overflow-hidden top-1.5 rounded-full bg-slate-200 dark:bg-slate-900 ">
-          <Pressable
-            android_ripple={{
-              color: isDark ? lightStatusBar : darkStatusBar,
-            }}
-            className="p-1"
-            onPress={() => toggleColorScheme()}>
-            <Feather
-              name={isDark ? 'moon' : 'sun'}
-              size={25}
-              color={isDark ? 'white' : 'black'}
-            />
-          </Pressable>
-        </View>
-        <Tab.Navigator
-          initialRouteName="Bussiness"
-          labeled={false}
-          shifting={true}
-          screenListeners={() => {
-            trigger('soft', options);
+      <View className="absolute z-10 right-3 overflow-hidden top-1.5 rounded-full bg-white dark:bg-slate-900 ">
+        <Pressable
+          android_ripple={{
+            color: isDark ? lightStatusBar : darkStatusBar,
           }}
-          barStyle={[
-            styles.bottomNavBar,
-            isDark ? styles.bgDark : styles.bgLight,
-          ]}>
-          {screens.map(item => (
-            <Tab.Screen
-              key={item.url}
-              name={item.name}
-              component={item.name === 'Search' ? Search : News}
-              initialParams={{url: item.url, badgeColor: item.badgeColor}}
-              options={{
-                tabBarIcon: () => item.icon,
-                tabBarColor: 'red',
-                tabBarAccessibilityLabel: item.name,
-              }}
-            />
-          ))}
-        </Tab.Navigator>
+          className="p-1"
+          onPress={() => toggleColorScheme()}>
+          <Feather
+            name={isDark ? 'moon' : 'sun'}
+            size={25}
+            color={isDark ? 'white' : 'black'}
+          />
+        </Pressable>
       </View>
+      <Tab.Navigator
+        initialRouteName="General"
+        labeled={false}
+        shifting={true}
+        screenListeners={() => {
+          trigger('soft', options);
+        }}
+        barStyle={[
+          styles.bottomNavBar,
+          isDark ? styles.bgDark : styles.bgLight,
+        ]}>
+        {screens.map(item => (
+          <Tab.Screen
+            key={item.url}
+            name={item.name}
+            component={item.name === 'Search' ? Search : News}
+            initialParams={{url: item.url, badgeColor: item.badgeColor}}
+            options={{
+              tabBarIcon: () => item.icon,
+              tabBarColor: 'red',
+              tabBarAccessibilityLabel: item.name,
+            }}
+          />
+        ))}
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }

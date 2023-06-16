@@ -11,6 +11,7 @@ import SnackBar from './SnackBar';
 import ServerButton from './ServerButton';
 import NetInfo from '@react-native-community/netinfo';
 import ShowErrorSnackBar from './ShowErrorSnackBar';
+import BottomLoader from './BottomLoader';
 
 function News(): JSX.Element {
   const route = useRoute();
@@ -22,22 +23,24 @@ function News(): JSX.Element {
   useScrollToTop(ref);
 
   const [NewArticals, setNewArticals] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
   const [isError, setIsError] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [page, setPage] = useState(1);
 
+  let pageSize = 16;
   const [isConnect, setIsConnect] = useState(null);
 
   const getNews = async () => {
+    setIsLoading(true);
     // API Call
     const {isConnected, isInternetReachable} = await NetInfo.fetch();
-    // console.log('getNews called', { isConnected, isInternetReachable});
     if (isConnected && isInternetReachable) {
       setIsConnect(true);
       const API = await AsyncStorage.getItem('API');
-      console.log({API});
-      let res = await fetch(url + API);
-      // console.log({API, api});
+      let res = await fetch(`${url}${API}&page=${page}&pagesize=${pageSize}`);
+      console.log(`${url}${API}&page=${page}&pagesize=${pageSize}`);
       let data = await res.json();
       if (res.ok) {
         setNewArticals(data.articles);
@@ -45,13 +48,12 @@ function News(): JSX.Element {
         return true;
       }
       setIsError(data.message);
-      setIsLoading(false);
     } else if ((isConnect || isInternetReachable) === false) {
       setIsConnect(false);
     }
     setIsLoading(false);
-    // console.log(data.totalResults);
   };
+
   useEffect(() => {
     getNews();
     // console.log('useEffect');
@@ -68,6 +70,39 @@ function News(): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const fetchMore = async () => {
+    setIsFetching(true);
+    if (NewArticals.length >= 10) {
+      // console.log('len', NewArticals.length);
+      setIsFetching(false);
+      return;
+    }
+    // API Call
+    const {isConnected, isInternetReachable} = await NetInfo.fetch();
+    if (isConnected && isInternetReachable) {
+      setPage(page + 1);
+      setIsConnect(true);
+      const API = await AsyncStorage.getItem('API');
+      let res = await fetch(
+        `${url}${API}&page=${page + 1}&pagesize=${pageSize}`,
+      );
+      let data = await res.json();
+      console.log(
+        `${url}${API}&page=${page + 1}&pagesize=${pageSize}`,
+        data.totalResults,
+        NewArticals.length,
+      );
+      if (res.ok) {
+        setNewArticals(NewArticals.concat(data.articles));
+        setIsFetching(false);
+        return true;
+      }
+      setIsError(data.message);
+    } else if ((isConnect || isInternetReachable) === false) {
+      setIsConnect(false);
+    }
+    setIsFetching(false);
+  };
   return (
     <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
       <NewsHeading query={name} />
@@ -79,6 +114,7 @@ function News(): JSX.Element {
           <ServerButton getNews={getNews} />
         </SnackBar>
       )}
+
       {isConnect === false && (
         <ShowErrorSnackBar
           msg={"OOPS! It's seems that your internet is not available"}
@@ -86,7 +122,7 @@ function News(): JSX.Element {
         />
       )}
 
-      {!isLoading && !isError && (
+      {!isError && (
         <FlatList
           data={NewArticals}
           renderItem={({item}) => <NewsItem item={item} color={badgeColor} />}
@@ -95,9 +131,13 @@ function News(): JSX.Element {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          className="mb-32"
+          onEndReached={fetchMore}
+          onEndReachedThreshold={1}
+          className="mb-36"
         />
       )}
+
+      {isFetching && <BottomLoader />}
     </View>
   );
 }
