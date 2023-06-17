@@ -1,12 +1,10 @@
-/* eslint-disable prettier/prettier */
-import React from 'react';
+import React, {useContext} from 'react';
 import {ActivityIndicator} from 'react-native-paper';
 import {useColorScheme} from 'nativewind';
-
-const darkStatusBar = '#1e293b';
-const lightStatusBar = '#cbd5e1';
+import NewsContext from '../context/News/NewsContext';
 
 const Loader = () => {
+  const {darkStatusBar, lightStatusBar} = useContext(NewsContext);
   const {colorScheme} = useColorScheme();
   const isDark = colorScheme === 'dark';
   return (
