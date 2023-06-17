@@ -191,7 +191,6 @@ function App(): JSX.Element {
             initialParams={{url: item.url, badgeColor: item.badgeColor}}
             options={{
               tabBarIcon: () => item.icon,
-              tabBarColor: 'red',
               tabBarAccessibilityLabel: item.name,
             }}
           />
@@ -205,7 +204,7 @@ export default App;
 
 const styles = StyleSheet.create({
   bottomNavBar: {
-    // height: 60,
+    // height: 65,
     paddingHorizontal: 10,
   },
   bgDark: {backgroundColor: '#0f172a'},

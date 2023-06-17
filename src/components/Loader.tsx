@@ -5,6 +5,7 @@ import {useColorScheme} from 'nativewind';
 
 const darkStatusBar = '#1e293b';
 const lightStatusBar = '#cbd5e1';
+
 const Loader = () => {
   const {colorScheme} = useColorScheme();
   const isDark = colorScheme === 'dark';
@@ -12,7 +13,7 @@ const Loader = () => {
     <ActivityIndicator
       color={isDark ? lightStatusBar : darkStatusBar}
       size={'large'}
-      className="my-3"
+      className="h-4/5"
     />
   );
 };

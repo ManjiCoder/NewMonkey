@@ -48,7 +48,7 @@ function News(): JSX.Element {
         setNewArticals(data.articles);
         console.log(data.articles.length, data.totalResults);
         setIsLoading(false);
-        totalResults.current = data.articles.length;
+        totalResults.current = data.totalResults;
         return true;
       }
       setIsError(data.message);
@@ -76,9 +76,10 @@ function News(): JSX.Element {
 
   const fetchMore = async () => {
     setIsFetching(true);
+    console.log(NewArticals.length, totalResults.current);
     if (
       NewArticals.length >= 100 ||
-      NewArticals.length <= totalResults.current
+      NewArticals.length === totalResults.current
     ) {
       setIsFetching(false);
       return;
@@ -138,8 +139,9 @@ function News(): JSX.Element {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           onEndReached={fetchMore}
-          onEndReachedThreshold={1}
-          className="mb-28"
+          onEndReachedThreshold={0}
+          // eslint-disable-next-line react-native/no-inline-styles
+          contentContainerStyle={{paddingBottom: 170}}
         />
       )}
 
