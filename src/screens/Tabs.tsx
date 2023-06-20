@@ -1,16 +1,17 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import {StyleSheet, View} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {trigger} from 'react-native-haptic-feedback';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useColorScheme} from 'nativewind';
-import Search from '../Search';
-import News from '../News';
+import Search from '../components/Search';
+import News from '../components/News';
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 const options = {
   enableVibrateFallback: false,
@@ -26,7 +27,7 @@ fromDate = fromDate.join('-');
 let country = 'in';
 // let lang = 'ar';
 
-const iconSize = 27;
+const iconSize = 22;
 
 const Tabs = () => {
   const {colorScheme} = useColorScheme();
@@ -120,24 +121,44 @@ const Tabs = () => {
   return (
     <Tab.Navigator
       initialRouteName="General"
-      labeled={false}
       shifting={true}
       screenListeners={() => {
         trigger('soft', options);
       }}
-      barStyle={[styles.bottomNavBar, isDark ? styles.bgDark : styles.bgLight]}>
-      {screens.map(item => (
-        <Tab.Screen
-          key={item.url}
-          name={item.name}
-          component={item.name === 'Search' ? Search : News}
-          initialParams={{url: item.url, badgeColor: item.badgeColor}}
-          options={{
-            tabBarIcon: () => item.icon,
-            tabBarAccessibilityLabel: item.name,
-          }}
-        />
-      ))}
+      barStyle={[isDark ? styles.bgDark : styles.bgLight]}
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: isDark ? 'rgb(30 41 59)' : 'rgb(203 213 225)',
+          paddingHorizontal: 0,
+        },
+        tabBarShowLabel: false,
+
+        tabBarActiveBackgroundColor: isDark
+          ? 'rgb(15 23 42)'
+          : 'rgb(226 232 240)',
+      }}>
+      {screens.map(item => {
+        return (
+          <Tab.Screen
+            key={item.url}
+            name={item.name}
+            component={item.name === 'Search' ? Search : News}
+            initialParams={{url: item.url, badgeColor: item.badgeColor}}
+            options={{
+              headerShown: false,
+              tabBarIcon: () => (
+                <View
+                  className={`${
+                    true && 'bg-pink-50'
+                  } p-1.5 rounded-full shadow-lg`}>
+                  {item.icon}
+                </View>
+              ),
+              tabBarAccessibilityLabel: item.name,
+            }}
+          />
+        );
+      })}
     </Tab.Navigator>
   );
 };
@@ -145,10 +166,6 @@ const Tabs = () => {
 export default Tabs;
 
 const styles = StyleSheet.create({
-  bottomNavBar: {
-    // height: 65,
-    paddingHorizontal: 10,
-  },
   bgDark: {backgroundColor: '#0f172a'},
   bgLight: {backgroundColor: '#cbd5e1'},
 });

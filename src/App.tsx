@@ -5,7 +5,7 @@ import {useColorScheme} from 'nativewind';
 import {NavigationContainer} from '@react-navigation/native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Tabs from './components/screens/Tabs';
+import Tabs from './screens/Tabs';
 import NewsState from './context/News/NewsState';
 
 import Feather from 'react-native-vector-icons/Feather';
@@ -50,6 +50,7 @@ function App(): JSX.Element {
             backgroundColor={isDark ? darkStatusBar : lightStatusBar}
           />
           <ToggleThemeButton isDark={isDark} />
+          {/* <SearchButton /> */}
           <Tabs />
         </View>
       </NewsState>
@@ -66,7 +67,7 @@ const ToggleThemeButton = ({isDark}) => {
     await AsyncStorage.setItem('theme', isDark ? 'light' : 'dark');
   };
   return (
-    <View className="absolute top-0 overflow-hidden right-3 z-10 rounded-full bg-white dark:bg-slate-900 mb-1">
+    <View className="absolute top-0.5 overflow-hidden right-3 z-10 rounded-full bg-white dark:bg-slate-900 mb-1">
       <Pressable
         android_ripple={{
           color: isDark ? lightStatusBar : darkStatusBar,
