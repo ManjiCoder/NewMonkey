@@ -18,12 +18,12 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
   useScrollToTop(ref);
   const [NewArticals, setNewArticals] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isFetching, setIsFetching] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
   const [isError, setIsError] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(1);
 
-  let pageSize = 18;
+  let pageSize = 16;
   const [isConnect, setIsConnect] = useState(null);
   const [totalResults, setTotalResults] = useState(null);
 
@@ -69,7 +69,7 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
 
   const fetchMore = async () => {
     setIsFetching(true);
-    if (NewArticals.length >= 100 && NewArticals.length <= totalResults) {
+    if (NewArticals.length >= 96 && NewArticals.length <= totalResults) {
       setIsFetching(false);
       return;
     }
@@ -132,8 +132,9 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           onEndReached={fetchMore}
-          onEndReachedThreshold={1}
-          className="mb-64"
+          onEndReachedThreshold={0}
+          // eslint-disable-next-line react-native/no-inline-styles
+          contentContainerStyle={{paddingBottom: 280}}
         />
       )}
       {isFetching && <BottomLoader />}

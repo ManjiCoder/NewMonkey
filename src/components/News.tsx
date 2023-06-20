@@ -4,17 +4,18 @@ import NewsItem from './NewsItem';
 import {useRoute, useScrollToTop} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import NewsHeading from './NewsHeading';
 import Loader from './Loader';
 import SnackBar from './SnackBar';
 import ServerButton from './ServerButton';
 import NetInfo from '@react-native-community/netinfo';
 import ShowErrorSnackBar from './ShowErrorSnackBar';
 import BottomLoader from './BottomLoader';
+import NewsHeading from './NewsHeading';
 
 function News(): JSX.Element {
   const route = useRoute();
   const {name} = route;
+
   const {url, badgeColor} = route.params;
 
   // Scroll to top
@@ -29,7 +30,7 @@ function News(): JSX.Element {
   const [page, setPage] = useState(1);
   const totalResults = useRef(null);
 
-  let pageSize = 18;
+  let pageSize = 16;
   const [isConnect, setIsConnect] = useState(null);
 
   const getNews = async () => {
@@ -77,7 +78,7 @@ function News(): JSX.Element {
     setIsFetching(true);
     console.log(NewArticals.length, totalResults.current);
     if (
-      NewArticals.length >= 100 ||
+      NewArticals.length >= 96 ||
       NewArticals.length === totalResults.current
     ) {
       setIsFetching(false);
@@ -112,7 +113,6 @@ function News(): JSX.Element {
   return (
     <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
       <NewsHeading query={name} />
-
       {isLoading && <Loader />}
 
       {isError && (

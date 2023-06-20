@@ -16,6 +16,7 @@ const options = {
   enableVibrateFallback: false,
   ignoreAndroidSystemSettings: true,
 };
+
 let toDate = new Date().toISOString().split('T')[0];
 let fromDate = toDate.split('-');
 fromDate[1] = (fromDate[1] - 1).toString().padStart(2, '0');
@@ -30,13 +31,13 @@ const iconSize = 27;
 const Tabs = () => {
   const {colorScheme} = useColorScheme();
   const isDark = colorScheme === 'dark';
-  // const isDark = useColorScheme() === 'dark';
   const iconColor = isDark ? '#3b82f6' : '#1d4ed8';
+
+  // All the Tabs are available below
   const screens = [
     {
       name: 'General',
       url: `https://newsapi.org/v2/top-headlines?country=${country}&category=general&apikey=`,
-      // url: `https://newsapi.org/v2/top-headlines?country=${country}`,
       icon: <FontAwesome name="home" color={iconColor} size={iconSize} />,
       badgeColor: 'bg-blue-600',
     },
@@ -115,6 +116,7 @@ const Tabs = () => {
       badgeColor: 'bg-purple-600',
     },
   ];
+
   return (
     <Tab.Navigator
       initialRouteName="General"

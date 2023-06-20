@@ -1,13 +1,21 @@
-import {Text} from 'react-native';
+import {Text, View} from 'react-native';
 import React from 'react';
+// import SearchButton from './SearchButton';
 
 const NewsHeading = ({query}) => {
   return (
-    <Text className="text-base flex-wrap capitalize font-normal pr-5 text-center m-2 text-black dark:text-white">
-      <Text className="font-semibold normal-case">NewsMoney</Text> - Top{' '}
-      {query === 'General' ? '' : query + ' '}
-      Headlines
-    </Text>
+    <View className="flex flex-row items-center px-7">
+      <Text
+        className="text-sm flex-1 flex-wrap capitalize font-normal text-center my-2  mx-2 text-black dark:text-white"
+        numberOfLines={1}>
+        <Text className="font-semibold normal-case">NewsMoney</Text> - Top{' '}
+        {query === 'General' ? '' : query + ' '}
+        Headlines .
+      </Text>
+      {/* For Search & Toggle */}
+      {/* <View className="flex flex-row justify-between items-center mx-5"> */}
+      {/* <SearchButton /> */}
+    </View>
   );
 };
 
