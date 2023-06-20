@@ -11,6 +11,7 @@ import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NotFound from './NotFound';
 import BottomLoader from './BottomLoader';
+import {Text} from 'react-native';
 
 const SearchNews = ({url, badgeColor, query}): JSX.Element => {
   // console.log({query});
@@ -69,7 +70,11 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
 
   const fetchMore = async () => {
     setIsFetching(true);
-    if (NewArticals.length >= 96 && NewArticals.length <= totalResults) {
+    if (
+      NewArticals.length >= 96 ||
+      NewArticals.length <= totalResults ||
+      NewArticals.length === 0
+    ) {
       setIsFetching(false);
       return;
     }
@@ -137,7 +142,7 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
           contentContainerStyle={{paddingBottom: 280}}
         />
       )}
-      {isFetching && <BottomLoader />}
+      {isFetching && <Text>Loading...</Text>}
     </View>
   );
 };

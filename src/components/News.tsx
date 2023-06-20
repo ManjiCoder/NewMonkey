@@ -79,7 +79,8 @@ function News(): JSX.Element {
     console.log(NewArticals.length, totalResults.current);
     if (
       NewArticals.length >= 96 ||
-      NewArticals.length === totalResults.current
+      NewArticals.length === totalResults.current ||
+      NewArticals.length === 0
     ) {
       setIsFetching(false);
       return;
@@ -138,7 +139,7 @@ function News(): JSX.Element {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           onEndReached={fetchMore}
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={0.5}
           // eslint-disable-next-line react-native/no-inline-styles
           contentContainerStyle={{paddingBottom: 170}}
         />

@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {trigger} from 'react-native-haptic-feedback';
@@ -27,9 +27,10 @@ fromDate = fromDate.join('-');
 let country = 'in';
 // let lang = 'ar';
 
-const iconSize = 22;
+const iconSize = 24;
 
 const Tabs = () => {
+  const [active, setActive] = useState('');
   const {colorScheme} = useColorScheme();
   const isDark = colorScheme === 'dark';
   const iconColor = isDark ? '#3b82f6' : '#1d4ed8';
@@ -122,20 +123,26 @@ const Tabs = () => {
     <Tab.Navigator
       initialRouteName="General"
       shifting={true}
-      screenListeners={() => {
+      screenListeners={({route}) => {
+        setActive(route.name);
         trigger('soft', options);
       }}
-      barStyle={[isDark ? styles.bgDark : styles.bgLight]}
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: isDark ? 'rgb(30 41 59)' : 'rgb(203 213 225)',
-          paddingHorizontal: 0,
+          backgroundColor: isDark
+            ? styles.bgDark.backgroundColor
+            : styles.bgLight.backgroundColor,
+          // borderTopWidth: 0,
+          borderColor: isDark
+            ? styles.bgDark.backgroundColor
+            : styles.bgLight.backgroundColor,
+          // paddingHorizontal: 5,
         },
         tabBarShowLabel: false,
 
-        tabBarActiveBackgroundColor: isDark
-          ? 'rgb(15 23 42)'
-          : 'rgb(226 232 240)',
+        // tabBarActiveBackgroundColor: isDark
+        //   ? 'rgb(15 23 42)'
+        //   : 'rgb(226 232 240)',
       }}>
       {screens.map(item => {
         return (
@@ -146,14 +153,7 @@ const Tabs = () => {
             initialParams={{url: item.url, badgeColor: item.badgeColor}}
             options={{
               headerShown: false,
-              tabBarIcon: () => (
-                <View
-                  className={`${
-                    true && 'bg-pink-50'
-                  } p-1.5 rounded-full shadow-lg`}>
-                  {item.icon}
-                </View>
-              ),
+              tabBarIcon: () => <TabIcon active={active} item={item} />,
               tabBarAccessibilityLabel: item.name,
             }}
           />
@@ -164,6 +164,25 @@ const Tabs = () => {
 };
 
 export default Tabs;
+
+const TabIcon = ({active, item}) => {
+  return (
+    <View
+      className={`${
+        active === item.name && 'border-t-2 border-white'
+      } absolute top-0 w-full`}>
+      <View
+        className={`${
+          active === item.name && 'bg-white'
+        } p-1.5 rounded-full shadow-lg justify-center items-center mt-1 h-9 w-9
+        mx-auto`}>
+        {item.icon}
+      </View>
+    </View>
+  );
+};
+
+export {TabIcon};
 
 const styles = StyleSheet.create({
   bgDark: {backgroundColor: '#0f172a'},

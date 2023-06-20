@@ -1,9 +1,9 @@
 import React, {useContext, useState} from 'react';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Pressable, View} from 'react-native';
 import {useColorScheme} from 'nativewind';
 import NewsContext from '../context/News/NewsContext';
 import Search from './Search';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //     {
 //       name: 'Search',
@@ -18,7 +18,7 @@ const SearchButton = () => {
   const [open, setOpen] = useState(false);
   const isDark = colorScheme === 'dark';
   return (
-    <View className="absolute top-0.5 overflow-hidden right-12  z-10 rounded-full bg-white dark:bg-slate-900 mb-1">
+    <View className="absolute top-0.5 overflow-hidden right-12 mr-1  z-10 rounded-full bg-white dark:bg-slate-900 mb-1">
       <View>
         <Pressable
           android_ripple={{
@@ -26,8 +26,8 @@ const SearchButton = () => {
           }}
           className="p-1.5"
           onPress={() => setOpen(!open)}>
-          <FontAwesome
-            name="search"
+          <Ionicons
+            name="md-search"
             color={isDark ? 'white' : 'black'}
             size={21}
           />
