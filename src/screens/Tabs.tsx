@@ -137,7 +137,7 @@ const Tabs = () => {
           borderColor: isDark
             ? styles.bgDark.backgroundColor
             : styles.bgLight.backgroundColor,
-          // paddingHorizontal: 5,
+          paddingHorizontal: 0,
         },
         tabBarShowLabel: false,
 
@@ -171,12 +171,19 @@ const TabIcon = ({active, item}) => {
     return (
       <Animatable.View
         animation={'bounceIn'}
-        duration={700}
+        duration={400}
         delay={100}
-        className="absolute top-0 w-full">
-        <View className="rounded-full shadow-lg justify-center items-center mt-1.5 h-9 w-9 mx-auto bg-white -top-0 scale-110 border-2 border-blue-700">
+        className="absolute -top-4 w-full">
+        <View className="rounded-full shadow-lg justify-center items-center mt-1.5 h-9 w-9 mx-auto bg-white -top-0 scale-125 border-2 border-blue-700">
           {item.icon}
         </View>
+        <Animatable.Text
+          animation={'bounceIn'}
+          duration={400}
+          delay={100}
+          className="text-[7px] mt-1 text-center font-bold text-blue-700 dark:text-white">
+          {item.name === 'General' ? 'Home' : item.name}
+        </Animatable.Text>
       </Animatable.View>
     );
   }
