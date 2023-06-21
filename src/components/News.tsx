@@ -3,15 +3,15 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import NewsItem from './NewsItem';
 import {useRoute, useScrollToTop} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 // import * as Animatable from 'react-native-animatable';
 
 import Loader from './Loader';
 import SnackBar from './SnackBar';
 import ServerButton from './ServerButton';
-import NetInfo from '@react-native-community/netinfo';
-import ShowErrorSnackBar from './ShowErrorSnackBar';
 import BottomLoader from './BottomLoader';
 import NewsHeading from './NewsHeading';
+import Alert from './Alert';
 
 function News(): JSX.Element {
   const route = useRoute();
@@ -34,7 +34,7 @@ function News(): JSX.Element {
   let pageSize = 16;
   const [isConnect, setIsConnect] = useState(null);
 
-  const unsubscribe = () => {
+  const isOffline = () => {
     NetInfo.addEventListener(state => {
       const {isConnected, isInternetReachable} = state;
       setIsConnect(isConnected && isInternetReachable);
@@ -65,7 +65,7 @@ function News(): JSX.Element {
   };
 
   useEffect(() => {
-    unsubscribe();
+    isOffline();
     getNews();
     // console.log('useEffect');
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,9 +126,7 @@ function News(): JSX.Element {
       )}
 
       {isConnect === false && (
-        <ShowErrorSnackBar
-          msg={"OOPs!  It's seems that your internet is not available"}
-        />
+        <Alert msg={"OOPs!  It's seems that your internet is not available"} />
       )}
 
       {!isError && (

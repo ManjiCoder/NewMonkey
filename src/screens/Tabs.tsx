@@ -122,7 +122,7 @@ const Tabs = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="General"
+      initialRouteName="Search"
       shifting={true}
       screenListeners={({route}) => {
         setActive(route.name);
@@ -137,13 +137,8 @@ const Tabs = () => {
           borderColor: isDark
             ? styles.bgDark.backgroundColor
             : styles.bgLight.backgroundColor,
-          paddingHorizontal: 0,
         },
         tabBarShowLabel: false,
-
-        // tabBarActiveBackgroundColor: isDark
-        //   ? 'rgb(15 23 42)'
-        //   : 'rgb(226 232 240)',
       }}>
       {screens.map(item => {
         return (

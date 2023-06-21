@@ -3,7 +3,7 @@ import React from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as Animatable from 'react-native-animatable';
 
-const ShowErrorSnackBar = ({msg}) => {
+const Alert = ({msg}) => {
   return (
     <Animatable.View
       animation="bounceIn"
@@ -16,4 +16,4 @@ const ShowErrorSnackBar = ({msg}) => {
   );
 };
 
-export default ShowErrorSnackBar;
+export default Alert;
