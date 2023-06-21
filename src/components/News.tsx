@@ -33,36 +33,42 @@ function News(): JSX.Element {
   let pageSize = 16;
   const [isConnect, setIsConnect] = useState(null);
 
+  const unsubscribe = () => {
+    NetInfo.addEventListener(state => {
+      const {isConnected, isInternetReachable} = state;
+      setIsConnect(isConnected && isInternetReachable);
+      console.log('unsubscribe', isConnected && isInternetReachable);
+    });
+  };
+
   const getNews = async () => {
+    console.log('getNews', {isConnect: isConnect});
     setIsLoading(true);
     // API Call
-    const {isConnected, isInternetReachable} = await NetInfo.fetch();
-    if (isConnected && isInternetReachable) {
-      setIsConnect(true);
+    if (isConnect) {
       const API = await AsyncStorage.getItem('API');
-      console.log({API});
+      // console.log({API});
       let res = await fetch(`${url}${API}&page=${page}&pagesize=${pageSize}`);
-      console.log(`${url}${API}&page=${page}&pagesize=${pageSize}`);
+      // console.log(`${url}${API}&page=${page}&pagesize=${pageSize}`);
       let data = await res.json();
       if (res.ok) {
         setNewArticals(data.articles);
-        console.log(data.articles.length, data.totalResults);
+        // console.log(data.articles.length, data.totalResults);
         setIsLoading(false);
         totalResults.current = data.totalResults;
         return true;
       }
       setIsError(data.message);
-    } else if ((isConnect || isInternetReachable) === false) {
-      setIsConnect(false);
     }
     setIsLoading(false);
   };
 
   useEffect(() => {
+    unsubscribe();
     getNews();
     // console.log('useEffect');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isConnect]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -86,10 +92,8 @@ function News(): JSX.Element {
       return;
     }
     // API Call
-    const {isConnected, isInternetReachable} = await NetInfo.fetch();
-    if (isConnected && isInternetReachable) {
+    if (isConnect) {
       setPage(page + 1);
-      setIsConnect(true);
       const API = await AsyncStorage.getItem('API');
       let res = await fetch(
         `${url}${API}&page=${page + 1}&pagesize=${pageSize}`,
@@ -106,8 +110,6 @@ function News(): JSX.Element {
         return true;
       }
       setIsError(data.message);
-    } else if ((isConnect || isInternetReachable) === false) {
-      setIsConnect(false);
     }
     setIsFetching(false);
   };
@@ -124,8 +126,7 @@ function News(): JSX.Element {
 
       {isConnect === false && (
         <ShowErrorSnackBar
-          msg={"OOPS! It's seems that your internet is not available"}
-          getNews={getNews}
+          msg={"OOPs!  It's seems that your internet is not available"}
         />
       )}
 

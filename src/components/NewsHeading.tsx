@@ -6,7 +6,7 @@ const NewsHeading = ({query}) => {
   return (
     <View className="flex flex-row items-center px-7">
       <Text
-        className="text-[16px] flex-1 flex-wrap capitalize font-normal text-center my-2  mx-2 text-black dark:text-white"
+        className="text-[18px] flex-1 flex-wrap capitalize font-normal text-center my-2  mx-2 mr-5 text-black dark:text-white"
         numberOfLines={1}>
         <Text className="font-semibold normal-case">NewsMoney</Text> - Top{' '}
         {query === 'General' ? '' : query + ' '}

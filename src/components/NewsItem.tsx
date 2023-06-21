@@ -46,18 +46,14 @@ const NewsItem = ({item, color}) => {
         )}
 
         {item.description && (
-          <Text
-            className="text-base leading-relaxed font-light text-slate-900 dark:text-slate-400"
-            numberOfLines={3}>
+          <Text className="text-base leading-relaxed font-light text-slate-900 dark:text-slate-400">
             <Text className="font-bold dark:text-white">Description :</Text>{' '}
             {item.description}
           </Text>
         )}
 
         {item.content && (
-          <Text
-            className="text-base leading-relaxed font-light text-slate-900 dark:text-slate-400"
-            numberOfLines={4}>
+          <Text className="text-base leading-relaxed font-light text-slate-900 dark:text-slate-400">
             <Text className="font-bold dark:text-white">Content :</Text>{' '}
             {item.content}
           </Text>
