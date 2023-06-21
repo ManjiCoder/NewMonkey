@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {trigger} from 'react-native-haptic-feedback';
+import * as Animatable from 'react-native-animatable';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -166,16 +167,24 @@ const Tabs = () => {
 export default Tabs;
 
 const TabIcon = ({active, item}) => {
+  if (active === item.name) {
+    return (
+      <Animatable.View
+        animation={'bounceIn'}
+        duration={700}
+        delay={100}
+        className="absolute top-0 w-full">
+        <View className="rounded-full shadow-lg justify-center items-center mt-1.5 h-9 w-9 mx-auto bg-white -top-0 scale-110 border-2 border-blue-700">
+          {item.icon}
+        </View>
+      </Animatable.View>
+    );
+  }
   return (
-    <View
-      className={`${
-        active === item.name && 'border-t-2 border-white'
-      } absolute top-0 w-full`}>
+    <View className="absolute top-0 w-full">
       <View
-        className={`${
-          active === item.name && 'bg-white'
-        } p-1.5 rounded-full shadow-lg justify-center items-center mt-1 h-9 w-9
-        mx-auto`}>
+        className="p-1.5 rounded-full shadow-lg justify-center items-center mt-1 h-9 w-9
+      mx-auto">
         {item.icon}
       </View>
     </View>

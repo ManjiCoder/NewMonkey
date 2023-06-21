@@ -3,6 +3,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import NewsItem from './NewsItem';
 import {useRoute, useScrollToTop} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Animatable from 'react-native-animatable';
 
 import Loader from './Loader';
 import SnackBar from './SnackBar';
@@ -133,7 +134,16 @@ function News(): JSX.Element {
       {!isError && (
         <FlatList
           data={NewArticals}
-          renderItem={({item}) => <NewsItem item={item} color={badgeColor} />}
+          renderItem={({item, index}) => {
+            return (
+              <Animatable.View
+                animation="fadeInUp"
+                duration={1000}
+                delay={index * 300}>
+                <NewsItem item={item} color={badgeColor} />
+              </Animatable.View>
+            );
+          }}
           keyExtractor={item => item.url}
           ref={ref}
           refreshControl={

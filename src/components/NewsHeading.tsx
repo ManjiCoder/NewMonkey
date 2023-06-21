@@ -1,10 +1,12 @@
-import {Text, View} from 'react-native';
+import {Text} from 'react-native';
 import React from 'react';
-// import SearchButton from './SearchButton';
+import * as Animatable from 'react-native-animatable';
 
 const NewsHeading = ({query}) => {
   return (
-    <View className="flex flex-row items-center px-7">
+    <Animatable.View
+      animation="pulse"
+      className="flex flex-row items-center px-7">
       <Text
         className="text-[18px] flex-1 flex-wrap capitalize font-normal text-center my-2  mx-2 mr-5 text-black dark:text-white"
         numberOfLines={1}>
@@ -12,10 +14,7 @@ const NewsHeading = ({query}) => {
         {query === 'General' ? '' : query + ' '}
         Headlines
       </Text>
-      {/* For Search & Toggle */}
-      {/* <View className="flex flex-row justify-between items-center mx-5"> */}
-      {/* <SearchButton /> */}
-    </View>
+    </Animatable.View>
   );
 };
 
