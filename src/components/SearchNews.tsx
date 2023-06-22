@@ -119,9 +119,7 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
       {totalResults === 0 && (
         <NotFound msg={`Sorry, we found nothing for ${query}`} />
       )}
-      {isConnect === false && (
-        <Alert msg={"OOPs!  It's seems that your internet is not available"} />
-      )}
+      {isConnect === false && <Alert msg={'Your are offline'} />}
 
       {!isError && (
         <FlatList

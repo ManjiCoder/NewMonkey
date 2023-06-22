@@ -52,9 +52,7 @@ const Search = () => {
           setIsSearch(searchQuery);
         }}
       />
-      {isConnect === false && (
-        <Alert msg={"OOPs!  It's seems that your internet is not available"} />
-      )}
+      {isConnect === false && <Alert msg={'Your are offline'} />}
       {isSearch && (
         <SearchNews
           url={url.replace(

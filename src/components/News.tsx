@@ -4,7 +4,7 @@ import NewsItem from './NewsItem';
 import {useRoute, useScrollToTop} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
-// import * as Animatable from 'react-native-animatable';
+import * as Animatable from 'react-native-animatable';
 
 import Loader from './Loader';
 import SnackBar from './SnackBar';
@@ -30,6 +30,17 @@ function News(): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(1);
   const totalResults = useRef(null);
+
+  const indexVisible = useRef(0);
+
+  const onViewCallBack = useCallback(viewableItems => {
+    // console.log(viewableItems.changed[0].index);
+    indexVisible.current = viewableItems.changed[0].index;
+    console.log(indexVisible.current);
+    // Use viewable items in state or as intended
+  }, []); // any dependencies that require the function to be "redeclared"
+
+  const viewConfigRef = useRef({viewAreaCoveragePercentThreshold: 50});
 
   let pageSize = 16;
   const [isConnect, setIsConnect] = useState(null);
@@ -114,6 +125,7 @@ function News(): JSX.Element {
     }
     setIsFetching(false);
   };
+
   return (
     <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
       <NewsHeading query={name} />
@@ -125,22 +137,24 @@ function News(): JSX.Element {
         </SnackBar>
       )}
 
-      {isConnect === false && (
-        <Alert msg={"OOPs!  It's seems that your internet is not available"} />
-      )}
+      {isConnect === false && <Alert msg={'Your are offline'} />}
 
       {!isError && (
         <FlatList
           data={NewArticals}
+          // eslint-disable-next-line react-native/no-inline-styles
+          contentContainerStyle={{paddingBottom: 170}}
+          onViewableItemsChanged={onViewCallBack}
+          viewabilityConfig={viewConfigRef.current}
           renderItem={({item, index}) => {
-            return (
-              // <Animatable.View
-              //   animation="fadeInUp"
-              //   duration={1000}
-              //   delay={index * 300}>
-              <NewsItem item={item} color={badgeColor} />
-              // </Animatable.View>
-            );
+            if (index === indexVisible.current) {
+              return (
+                <Animatable.View animation={'zoomIn'}>
+                  <NewsItem item={item} color={badgeColor} />
+                </Animatable.View>
+              );
+            }
+            return <NewsItem item={item} color={badgeColor} />;
           }}
           keyExtractor={item => item.url}
           ref={ref}
@@ -149,8 +163,7 @@ function News(): JSX.Element {
           }
           onEndReached={fetchMore}
           onEndReachedThreshold={0.5}
-          // eslint-disable-next-line react-native/no-inline-styles
-          contentContainerStyle={{paddingBottom: 170}}
+          initialNumToRender={pageSize}
         />
       )}
 

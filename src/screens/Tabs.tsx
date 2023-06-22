@@ -122,7 +122,7 @@ const Tabs = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="Search"
+      initialRouteName="General"
       shifting={true}
       screenListeners={({route}) => {
         setActive(route.name);
