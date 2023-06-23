@@ -11,7 +11,6 @@ import Loader from './Loader';
 import SnackBar from './SnackBar';
 import NotFound from './NotFound';
 import BottomLoader from './BottomLoader';
-import Alert from './Alert';
 
 const SearchNews = ({url, badgeColor, query}): JSX.Element => {
   // console.log({query});
@@ -75,16 +74,16 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
 
   const fetchMore = async () => {
     setIsFetching(true);
-    // if (
-    //   NewArticals.length >= 96 ||
-    //   NewArticals.length <= totalResults ||
-    //   NewArticals.length === 0
-    // ) {
-    //   setIsFetching(false);
-    //   return;
-    // }
+    // console.log({length: NewArticals.length, totalResults});
+    if (
+      (NewArticals.length >= 80 && NewArticals.length <= totalResults) ||
+      NewArticals.length === 0
+    ) {
+      setIsFetching(false);
+      return;
+    }
     // API Call
-    if (isConnect) {
+    if (true && isConnect) {
       setPage(page + 1);
       const API = await AsyncStorage.getItem('API');
       let res = await fetch(
@@ -102,8 +101,8 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
         return true;
       }
       setIsError(data.message);
+      setIsFetching(false);
     }
-    setIsFetching(false);
   };
 
   return (
@@ -119,7 +118,6 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
       {totalResults === 0 && (
         <NotFound msg={`Sorry, we found nothing for ${query}`} />
       )}
-      {isConnect === false && <Alert msg={'Your are offline'} />}
 
       {!isError && (
         <FlatList
@@ -137,8 +135,7 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
         />
       )}
 
-      {isFetching && <BottomLoader />}
-      <BottomLoader />
+      {isFetching && <BottomLoader bottom={80} />}
     </View>
   );
 };

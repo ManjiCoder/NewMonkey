@@ -4,7 +4,6 @@ import NewsItem from './NewsItem';
 import {useRoute, useScrollToTop} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
-import * as Animatable from 'react-native-animatable';
 
 import Loader from './Loader';
 import SnackBar from './SnackBar';
@@ -30,17 +29,6 @@ function News(): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(1);
   const totalResults = useRef(null);
-
-  const indexVisible = useRef(0);
-
-  const onViewCallBack = useCallback(viewableItems => {
-    // console.log(viewableItems.changed[0].index);
-    indexVisible.current = viewableItems.changed[0].index;
-    console.log(indexVisible.current);
-    // Use viewable items in state or as intended
-  }, []); // any dependencies that require the function to be "redeclared"
-
-  const viewConfigRef = useRef({viewAreaCoveragePercentThreshold: 50});
 
   let pageSize = 16;
   const [isConnect, setIsConnect] = useState(null);
@@ -144,16 +132,7 @@ function News(): JSX.Element {
           data={NewArticals}
           // eslint-disable-next-line react-native/no-inline-styles
           contentContainerStyle={{paddingBottom: 170}}
-          onViewableItemsChanged={onViewCallBack}
-          viewabilityConfig={viewConfigRef.current}
-          renderItem={({item, index}) => {
-            if (index === indexVisible.current) {
-              return (
-                <Animatable.View animation={'zoomIn'}>
-                  <NewsItem item={item} color={badgeColor} />
-                </Animatable.View>
-              );
-            }
+          renderItem={({item}) => {
             return <NewsItem item={item} color={badgeColor} />;
           }}
           keyExtractor={item => item.url}
@@ -167,7 +146,7 @@ function News(): JSX.Element {
         />
       )}
 
-      {isFetching && <BottomLoader />}
+      {isFetching && <BottomLoader bottom={48} />}
     </View>
   );
 }

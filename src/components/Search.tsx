@@ -36,7 +36,7 @@ const Search = () => {
         value={searchQuery}
         inputStyle={styles.input}
         iconColor="#1e293b"
-        className="mx-5 mt-0 h-10 mr-14 mb-2.5"
+        className="mx-5 mt-1 h-10 mr-14 mb-2.5"
         onIconPress={() => {
           if (searchQuery.trim() === '') {
             setSearchQuery('');

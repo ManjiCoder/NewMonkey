@@ -3,7 +3,7 @@ import {ActivityIndicator} from 'react-native-paper';
 import {useColorScheme} from 'nativewind';
 import NewsContext from '../context/News/NewsContext';
 
-const BottomLoader = () => {
+const BottomLoader = ({bottom}) => {
   const {darkStatusBar, lightStatusBar} = useContext(NewsContext);
   const {colorScheme} = useColorScheme();
   const isDark = colorScheme === 'dark';
@@ -11,7 +11,7 @@ const BottomLoader = () => {
     <ActivityIndicator
       color={isDark ? lightStatusBar : darkStatusBar}
       size={'small'}
-      className="bottom-48"
+      className={`bottom-${bottom} -z-10`}
     />
   );
 };
