@@ -11,7 +11,7 @@ const BottomLoader = ({bottom}) => {
     <ActivityIndicator
       color={isDark ? lightStatusBar : darkStatusBar}
       size={'small'}
-      className={`bottom-${bottom} -z-10`}
+      className={`${bottom} -z-10`}
     />
   );
 };

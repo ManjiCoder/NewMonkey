@@ -41,7 +41,7 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
     if (isConnect) {
       const API = await AsyncStorage.getItem('API');
       let res = await fetch(`${url}${API}&page=${page}&pagesize=${pageSize}`);
-      console.log(`${url}${API}&page=${page}&pagesize=${pageSize}`);
+      // console.log(`${url}${API}&page=${page}&pagesize=${pageSize}`);
       let data = await res.json();
       if (res.ok) {
         setNewArticals(data.articles);
@@ -90,11 +90,11 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
         `${url}${API}&page=${page + 1}&pagesize=${pageSize}`,
       );
       let data = await res.json();
-      console.log(
-        `&page=${page + 1}&pagesize=${pageSize}`,
-        data.totalResults,
-        NewArticals.length,
-      );
+      // console.log(
+      //   `&page=${page + 1}&pagesize=${pageSize}`,
+      //   data.totalResults,
+      //   NewArticals.length,
+      // );
       if (res.ok) {
         setNewArticals(NewArticals.concat(data.articles));
         setIsFetching(false);
@@ -131,11 +131,11 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
           onEndReached={fetchMore}
           onEndReachedThreshold={0.5}
           // eslint-disable-next-line react-native/no-inline-styles
-          contentContainerStyle={{paddingBottom: 305}}
+          contentContainerStyle={{paddingBottom: 310}}
         />
       )}
 
-      {isFetching && <BottomLoader bottom={80} />}
+      {isFetching && <BottomLoader bottom={'bottom-80'} />}
     </View>
   );
 };

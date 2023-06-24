@@ -15,7 +15,6 @@ import Alert from './Alert';
 function News(): JSX.Element {
   const route = useRoute();
   const {name} = route;
-
   const {url, badgeColor} = route.params;
 
   // Scroll to top
@@ -37,12 +36,12 @@ function News(): JSX.Element {
     NetInfo.addEventListener(state => {
       const {isConnected, isInternetReachable} = state;
       setIsConnect(isConnected && isInternetReachable);
-      console.log('unsubscribe', isConnected && isInternetReachable);
+      // console.log('unsubscribe', isConnected && isInternetReachable);
     });
   };
 
   const getNews = async () => {
-    console.log('getNews', {isConnect: isConnect});
+    // console.log('getNews', {isConnect: isConnect});
     setIsLoading(true);
     // API Call
     if (isConnect) {
@@ -82,7 +81,7 @@ function News(): JSX.Element {
 
   const fetchMore = async () => {
     setIsFetching(true);
-    console.log(NewArticals.length, totalResults.current);
+    // console.log(NewArticals.length, totalResults.current);
     if (
       NewArticals.length >= 96 ||
       NewArticals.length === totalResults.current ||
@@ -99,19 +98,19 @@ function News(): JSX.Element {
         `${url}${API}&page=${page + 1}&pagesize=${pageSize}`,
       );
       let data = await res.json();
-      console.log(
-        `&page=${page + 1}&pagesize=${pageSize}`,
-        data.totalResults,
-        NewArticals.length,
-      );
+      // console.log(
+      //   `&page=${page + 1}&pagesize=${pageSize}`,
+      //   data.totalResults,
+      //   NewArticals.length,
+      // );
       if (res.ok) {
         setNewArticals(NewArticals.concat(data.articles));
         setIsFetching(false);
         return true;
       }
       setIsError(data.message);
+      setIsFetching(false);
     }
-    setIsFetching(false);
   };
 
   return (
@@ -146,7 +145,7 @@ function News(): JSX.Element {
         />
       )}
 
-      {isFetching && <BottomLoader bottom={48} />}
+      {isFetching && <BottomLoader bottom={'bottom-48'} />}
     </View>
   );
 }

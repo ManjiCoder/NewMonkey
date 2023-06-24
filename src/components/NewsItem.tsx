@@ -13,7 +13,6 @@ const NewsItem = ({item, color}) => {
   // console.log(item.urlToImage);
   // To Open NewUrl in Browser
   const handleReadMore = async (url: string) => {
-    console.log(url);
     await Linking.openURL(url);
   };
 

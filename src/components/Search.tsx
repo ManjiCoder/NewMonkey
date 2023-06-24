@@ -23,7 +23,7 @@ const Search = () => {
   };
 
   useEffect(() => {
-    console.log('Iam loading');
+    // console.log('Iam loading');
     isOffline();
   }, [isSearch, isConnect]);
 

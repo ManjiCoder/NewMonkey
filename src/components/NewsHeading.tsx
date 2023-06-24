@@ -11,7 +11,7 @@ const NewsHeading = ({query}) => {
       <Text
         className="text-[18px] flex-1 flex-wrap capitalize font-normal text-center my-2  mx-2 mr-5 text-black dark:text-white"
         numberOfLines={1}>
-        <Text className="font-semibold normal-case">NewsMoney</Text> - Top{' '}
+        <Text className="font-semibold normal-case">NewsMonkey</Text> - Top{' '}
         {query === 'General' ? '' : query + ' '}
         Headlines
       </Text>
