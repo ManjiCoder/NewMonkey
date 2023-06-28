@@ -18,7 +18,7 @@ const SearchButton = () => {
   const [open, setOpen] = useState(false);
   const isDark = colorScheme === 'dark';
   return (
-    <View className="absolute top-0.5 overflow-hidden right-12 mr-1  z-10 rounded-full bg-white dark:bg-slate-900 mb-1">
+    <View className="absolute top-1 overflow-hidden right-12 mr-1  z-10 rounded-full mb-1">
       <View>
         <Pressable
           android_ripple={{
@@ -29,7 +29,7 @@ const SearchButton = () => {
           <Ionicons
             name="md-search"
             color={isDark ? 'white' : 'black'}
-            size={21}
+            size={23}
           />
         </Pressable>
       </View>

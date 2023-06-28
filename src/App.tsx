@@ -67,7 +67,7 @@ const ToggleThemeButton = ({isDark}) => {
     await AsyncStorage.setItem('theme', isDark ? 'light' : 'dark');
   };
   return (
-    <View className="absolute top-[5px] shadow border border-blue-500 dark:border-slate-500 shadow-black dark:shadow-white overflow-hidden right-3 z-10 rounded-full bg-white dark:bg-slate-900 mb-1">
+    <View className="absolute top-[5px] shadow-sm shadow-black dark:shadow-white overflow-hidden right-3 z-10 rounded-full bg-white dark:bg-slate-900 mb-1">
       <Pressable
         android_ripple={{
           color: isDark ? lightStatusBar : darkStatusBar,

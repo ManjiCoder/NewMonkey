@@ -6,14 +6,27 @@ import {
   Linking,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
-import Feather from 'react-native-vector-icons/dist/Feather';
+import React, {useState} from 'react';
+import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const NewsItem = ({item, color}) => {
-  // console.log(item.urlToImage);
+  const [isBookmark, setIsBookmark] = useState(false);
+
   // To Open NewUrl in Browser
   const handleReadMore = async (url: string) => {
     await Linking.openURL(url);
+  };
+
+  // Bookmark News
+  const handleSaveNews = async news => {
+    setIsBookmark(!isBookmark);
+    console.log(news.url);
+  };
+
+  // Sharing Screenshot of News
+  const handleShareNews = async () => {
+    console.log('Shareing');
   };
 
   return (
@@ -74,16 +87,38 @@ const NewsItem = ({item, color}) => {
           </Text>
         )}
 
-        {item.url && (
+        <View className="gap-2 flex-row flex-wrap justify-between">
+          {item.url && (
+            <TouchableOpacity
+              className="p-3 justify-center rounded-md flex-row items-center bg-blue-700"
+              onPress={() => handleReadMore(item.url)}>
+              <Text className="text-center font-semibold  text-white mr-2">
+                Read More
+              </Text>
+              <Feather name="arrow-up-right" size={20} color="white" />
+            </TouchableOpacity>
+          )}
           <TouchableOpacity
-            className="bg-red-50 rounded-md"
-            onPress={() => handleReadMore(item.url)}>
-            <Text className="p-3 text-center justify-center  font-bold bg-blue-700 rounded-md text-white">
-              Read More
-              <Feather name="arrow-up-right" size={18} color="white" />
+            className="p-3 flex-grow justify-center rounded-md flex-row items-center bg-blue-700"
+            onPress={() => handleSaveNews(item)}>
+            <Text className="text-center font-semibold  text-white mr-2">
+              Save
             </Text>
+            <FontAwesome
+              name={isBookmark ? 'bookmark' : 'bookmark-o'}
+              size={18}
+              color="white"
+            />
           </TouchableOpacity>
-        )}
+          <TouchableOpacity
+            className="p-1 flex-grow justify-center rounded-md flex-row items-center bg-red-700"
+            onPress={() => handleShareNews()}>
+            <Text className="text-center font-semibold  text-white mr-2">
+              Share
+            </Text>
+            <FontAwesome name="share" size={18} color="white" />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
