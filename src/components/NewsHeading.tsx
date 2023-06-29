@@ -13,7 +13,7 @@ const NewsHeading = ({query, duration, style}) => {
         numberOfLines={1}>
         <Text className="font-semibold normal-case">NewsMonkey</Text> - Top{' '}
         {query === 'General' ? '' : query + ' '}
-        Headlines
+        Headline
       </Text>
     </Animatable.View>
   );

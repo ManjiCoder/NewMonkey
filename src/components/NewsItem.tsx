@@ -6,7 +6,7 @@ import {
   Linking,
   TouchableOpacity,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import Share from 'react-native-share';
 import ViewShot from 'react-native-view-shot';
 import Feather from 'react-native-vector-icons/Feather';
@@ -14,9 +14,21 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useRoute} from '@react-navigation/native';
 import NewsHeading from './NewsHeading';
 
+const dummyImg =
+  'https://static.theprint.in/wp-content/uploads/2023/06/Greenhouse-gases.jpg';
+
 const NewsItem = ({item, color}) => {
+  // For checking Image
+  const isImgValid = useCallback((imgUrl: string) => {
+    if (imgUrl) {
+      return imgUrl.includes('https://') ? imgUrl : dummyImg;
+    } else {
+      return dummyImg;
+    }
+  }, []);
+
+  // console.log(item.urlToImage);
   const {name} = useRoute();
-  console.log(name);
   const [isBookmark, setIsBookmark] = useState(false);
   const [isClick, setIsClick] = useState(false);
   const ref = useRef();
@@ -44,9 +56,9 @@ const NewsItem = ({item, color}) => {
       setIsClick(false);
       // console.log(fileName);
       const options = {
-        title: 'NewsMonkey',
+        title: `NewsMonkey - Top ${name} Headline`,
         // message: news.title,
-        message: 'NewsMonkey',
+        message: `NewsMonkey - Top ${name} Headline`,
         url: fileName,
       };
       await Share.open(options);
@@ -77,9 +89,7 @@ const NewsItem = ({item, color}) => {
           <Image
             className="rounded-t-md"
             source={{
-              uri:
-                item.urlToImage ||
-                'https://static.theprint.in/wp-content/uploads/2023/06/Greenhouse-gases.jpg',
+              uri: isImgValid(item.urlToImage),
             }}
             style={styles.NewsImg}
           />
