@@ -2,12 +2,12 @@ import {Text} from 'react-native';
 import React from 'react';
 import * as Animatable from 'react-native-animatable';
 
-const NewsHeading = ({query}) => {
+const NewsHeading = ({query, duration, style}) => {
   return (
     <Animatable.View
       animation="bounceInLeft"
-      duration={1100}
-      className="flex flex-row items-center px-7">
+      duration={duration || 1100}
+      className={`flex flex-row items-center px-7 ${style}`}>
       <Text
         className="text-[18px] flex-1 flex-wrap capitalize font-normal text-center my-2  mx-2 mr-5 text-black dark:text-white"
         numberOfLines={1}>
