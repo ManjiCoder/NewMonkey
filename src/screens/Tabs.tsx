@@ -113,12 +113,12 @@ const Tabs = () => {
       ),
       badgeColor: 'bg-orange-600',
     },
-    {
-      name: 'Search',
-      url: `https://newsapi.org/v2/everything?q=undefined&from=${fromDate}to=${toDate}&sortBy=publishedAt&apikey=`,
-      icon: <FontAwesome name="search" color={iconColor} size={iconSize} />,
-      badgeColor: 'bg-purple-600',
-    },
+    // {
+    //   name: 'Search',
+    //   url: `https://newsapi.org/v2/everything?q=undefined&from=${fromDate}to=${toDate}&sortBy=publishedAt&apikey=`,
+    //   icon: <FontAwesome name="search" color={iconColor} size={iconSize} />,
+    //   badgeColor: 'bg-purple-600',
+    // },
   ];
 
   // const navigation = useNavigation();
@@ -212,7 +212,7 @@ const TabIcon = ({active, item}) => {
         duration={400}
         delay={100}
         className="absolute -top-4 w-full">
-        <View className="rounded-full shadow-lg justify-center items-center mt-1.5 h-9 w-9 mx-auto bg-white -top-0 scale-125 border-2 border-blue-700">
+        <View className="rounded-full shadow-sm shadow-black dark:shadow-white justify-center items-center mt-1.5 h-9 w-9 mx-auto bg-white -top-0 scale-125 border-2 border-blue-700">
           {item.icon}
         </View>
         <Animatable.Text
