@@ -30,7 +30,7 @@ const Search = () => {
   return (
     <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
       <Searchbar
-        placeholder={'Search "Ratan Tata" - NewsMoney'}
+        placeholder={'Search - NewsMoney'}
         placeholderTextColor={'gray'}
         onChangeText={query => setSearchQuery(query)}
         value={searchQuery}

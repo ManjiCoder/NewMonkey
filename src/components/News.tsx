@@ -7,7 +7,7 @@ import NetInfo from '@react-native-community/netinfo';
 
 import Loader from './Loader';
 import SnackBar from './SnackBar';
-import ServerButton from './ServerButton';
+import ServerButton, {APIs} from './ServerButton';
 import BottomLoader from './BottomLoader';
 import NewsHeading from './NewsHeading';
 import Alert from './Alert';
@@ -45,13 +45,13 @@ function News(): JSX.Element {
     setIsLoading(true);
     // API Call
     if (isConnect) {
-      const API = await AsyncStorage.getItem('API');
-      // console.log({API});
+      const API = APIs[await AsyncStorage.getItem('API')];
+      // console.log(API);
       let res = await fetch(`${url}${API}&page=${page}&pagesize=${pageSize}`);
       // console.log(`${url}${API}&page=${page}&pagesize=${pageSize}`);
       let data = await res.json();
       if (res.ok) {
-        setNewArticals(data.articles);
+        setNewArticals(Array.from(new Set(data.articles)));
         // console.log(data.articles.length, data.totalResults);
         setIsLoading(false);
         totalResults.current = data.totalResults;
@@ -65,6 +65,7 @@ function News(): JSX.Element {
   useEffect(() => {
     isOffline();
     getNews();
+
     // console.log('useEffect');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnect]);
@@ -93,7 +94,8 @@ function News(): JSX.Element {
     // API Call
     if (isConnect) {
       setPage(page + 1);
-      const API = await AsyncStorage.getItem('API');
+      const API = APIs[await AsyncStorage.getItem('API')];
+      console.log(API);
       let res = await fetch(
         `${url}${API}&page=${page + 1}&pagesize=${pageSize}`,
       );
@@ -104,7 +106,7 @@ function News(): JSX.Element {
       //   NewArticals.length,
       // );
       if (res.ok) {
-        setNewArticals(NewArticals.concat(data.articles));
+        setNewArticals(NewArticals.concat(Array.from(new Set(data.articles))));
         setIsFetching(false);
         return true;
       }
@@ -118,7 +120,7 @@ function News(): JSX.Element {
       <NewsHeading query={name} />
       {isLoading && <Loader />}
 
-      {isError && (
+      {isError !== false && (
         <SnackBar msg={isError}>
           <ServerButton getNews={getNews} />
         </SnackBar>
@@ -126,7 +128,7 @@ function News(): JSX.Element {
 
       {isConnect === false && <Alert msg={'Your are offline'} />}
 
-      {!isError && (
+      {NewArticals.length !== 0 && (
         <FlatList
           data={NewArticals}
           // eslint-disable-next-line react-native/no-inline-styles
@@ -145,7 +147,7 @@ function News(): JSX.Element {
         />
       )}
 
-      {isFetching && <BottomLoader bottom={'bottom-48'} />}
+      {isFetching && <BottomLoader bottom={'bottom-40'} />}
     </View>
   );
 }

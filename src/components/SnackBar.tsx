@@ -8,7 +8,7 @@ const SnackBar = ({msg, children}) => {
   const [visible, setVisible] = useState(true);
   return (
     <Snackbar
-      className="text-xs bg-slate-700 mx-5"
+      className="text-xs bg-slate-100 dark:bg-slate-700 mx-5 shadow-md"
       visible={visible}
       duration={300000}
       wrapperStyle={styles.SnackbarWrapper}>
@@ -21,7 +21,9 @@ const SnackBar = ({msg, children}) => {
           <FontAwesome name="close" size={30} />
         </TouchableOpacity>
       </View>
-      <Text className="text-sm text-justify text-slate-100">{msg}</Text>
+      <Text className="text-sm text-justify text-slate-700 font-semibold dark:text-slate-100">
+        {msg}
+      </Text>
       {children}
     </Snackbar>
   );
@@ -35,5 +37,8 @@ const styles = StyleSheet.create({
     height: '100%',
     margin: 0,
     padding: 0,
+    position: 'absolute',
+    top: 0,
+    zIndex: 10,
   },
 });

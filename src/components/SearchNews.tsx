@@ -5,7 +5,7 @@ import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import NewsItem from './NewsItem';
-import ServerButton from './ServerButton';
+import ServerButton, {APIs} from './ServerButton';
 import NewsHeading from './NewsHeading';
 import Loader from './Loader';
 import SnackBar from './SnackBar';
@@ -39,12 +39,13 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
     setIsLoading(true);
     // API Call
     if (isConnect) {
-      const API = await AsyncStorage.getItem('API');
+      const API = APIs[await AsyncStorage.getItem('API')];
+      console.log(API);
       let res = await fetch(`${url}${API}&page=${page}&pagesize=${pageSize}`);
       // console.log(`${url}${API}&page=${page}&pagesize=${pageSize}`);
       let data = await res.json();
       if (res.ok) {
-        setNewArticals(data.articles);
+        setNewArticals(Array.from(new Set(data.articles)));
         setIsLoading(false);
       }
       setIsError(data.message);
@@ -85,7 +86,8 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
     // API Call
     if (true && isConnect) {
       setPage(page + 1);
-      const API = await AsyncStorage.getItem('API');
+      const API = APIs[await AsyncStorage.getItem('API')];
+      console.log(API);
       let res = await fetch(
         `${url}${API}&page=${page + 1}&pagesize=${pageSize}`,
       );
@@ -96,7 +98,7 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
       //   NewArticals.length,
       // );
       if (res.ok) {
-        setNewArticals(NewArticals.concat(data.articles));
+        setNewArticals(NewArticals.concat(Array.from(new Set(data.articles))));
         setIsFetching(false);
         return true;
       }
@@ -135,7 +137,7 @@ const SearchNews = ({url, badgeColor, query}): JSX.Element => {
         />
       )}
 
-      {isFetching && <BottomLoader bottom={'bottom-80'} />}
+      {isFetching && <BottomLoader bottom={'bottom-[310px]'} />}
     </View>
   );
 };

@@ -18,6 +18,7 @@ const options = {
   enableVibrateFallback: false,
   ignoreAndroidSystemSettings: true,
 };
+// let history = [];
 
 let toDate = new Date().toISOString().split('T')[0];
 let fromDate = toDate.split('-');
@@ -120,20 +121,62 @@ const Tabs = () => {
     },
   ];
 
+  // const navigation = useNavigation();
+
+  // const backAction = async () => {
+  //   try {
+  //     if (history.length > 0) {
+  //       const previousTab = history.pop();
+  //       const {routeNames} = navigation.getState();
+  //       const screen = screens[routeNames.indexOf(previousTab)];
+  //       console.log(screen.name, {
+  //         url: screen.url,
+  //         badgeColor: screen.badgeColor,
+  //       });
+  //       navigation.navigate(previousTab, {
+  //         url: screen.url,
+  //         badgeColor: screen.badgeColor,
+  //       });
+  //     } else {
+  //       BackHandler.exitApp();
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // const historyTab = tab => {
+  //   history.push(tab);
+  //   console.log(history);
+  // };
+
+  // useEffect(() => {
+  //   const backHandle = BackHandler.addEventListener(
+  //     'hardwareBackPress',
+  //     backAction,
+  //   );
+  //   return () => {
+  //     backHandle.remove();
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
   return (
     <Tab.Navigator
       initialRouteName="General"
       shifting={true}
-      screenListeners={({route}) => {
-        setActive(route.name);
-        trigger('soft', options);
-      }}
+      screenListeners={({route}) => ({
+        focus: () => {
+          setActive(route.name);
+          trigger('soft', options);
+          // historyTab(route.name)
+        },
+      })}
       screenOptions={{
         tabBarStyle: {
           backgroundColor: isDark
             ? styles.bgDark.backgroundColor
             : styles.bgLight.backgroundColor,
-          // borderTopWidth: 0,
           borderColor: isDark
             ? styles.bgDark.backgroundColor
             : styles.bgLight.backgroundColor,

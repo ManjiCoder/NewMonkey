@@ -19,10 +19,11 @@ function App(): JSX.Element {
 
   const setApi = async () => {
     const api = await AsyncStorage.getItem('API');
+    console.log(api);
     if (!api) {
-      await AsyncStorage.setItem('API', 'ec7735c4db74410f90ffeffaaa8bd570');
+      await AsyncStorage.setItem('API', 'API_KEY_1');
     } else {
-      await AsyncStorage.setItem('API', 'ec7735c4db74410f90ffeffaaa8bd570');
+      await AsyncStorage.setItem('API', 'API_KEY_1');
     }
   };
 
