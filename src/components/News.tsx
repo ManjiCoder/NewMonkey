@@ -45,10 +45,11 @@ function News(): JSX.Element {
     setIsLoading(true);
     // API Call
     if (isConnect) {
-      const API = APIs[await AsyncStorage.getItem('API')];
-      // console.log(API);
+      let API = await AsyncStorage.getItem('API');
+      API = API ? APIs[API] : APIs.API_KEY_1;
+      console.log('news', {API});
       let res = await fetch(`${url}${API}&page=${page}&pagesize=${pageSize}`);
-      // console.log(`${url}${API}&page=${page}&pagesize=${pageSize}`);
+      console.log(`${url}${API}&page=${page}&pagesize=${pageSize}`);
       let data = await res.json();
       if (res.ok) {
         setNewArticals(Array.from(new Set(data.articles)));

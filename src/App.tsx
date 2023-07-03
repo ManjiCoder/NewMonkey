@@ -19,11 +19,10 @@ function App(): JSX.Element {
   const isDark = colorScheme === 'dark';
 
   const setApi = async () => {
+    await AsyncStorage.clear();
     const api = await AsyncStorage.getItem('API');
-    console.log(api);
+    console.log('app', {api});
     if (!api) {
-      await AsyncStorage.setItem('API', 'API_KEY_1');
-    } else {
       await AsyncStorage.setItem('API', 'API_KEY_1');
     }
   };
