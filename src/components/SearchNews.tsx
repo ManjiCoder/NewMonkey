@@ -1,6 +1,6 @@
 import {View, FlatList, RefreshControl} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {useScrollToTop} from '@react-navigation/native';
+import {useRoute, useScrollToTop} from '@react-navigation/native';
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -12,8 +12,9 @@ import SnackBar from './SnackBar';
 import NotFound from './NotFound';
 import BottomLoader from './BottomLoader';
 
-const SearchNews = ({url, badgeColor, query}): JSX.Element => {
-  // console.log({query});
+const SearchNews = (): JSX.Element => {
+  const {params} = useRoute();
+  const {url, badgeColor, query} = params;
   const ref = useRef(null);
   useScrollToTop(ref);
   const [NewArticals, setNewArticals] = useState([]);

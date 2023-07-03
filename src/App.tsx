@@ -19,7 +19,6 @@ function App(): JSX.Element {
   const isDark = colorScheme === 'dark';
 
   const setApi = async () => {
-    await AsyncStorage.clear();
     const api = await AsyncStorage.getItem('API');
     console.log('app', {api});
     if (!api) {

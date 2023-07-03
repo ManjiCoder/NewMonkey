@@ -4,15 +4,17 @@ import NetInfo from '@react-native-community/netinfo';
 import {Searchbar} from 'react-native-paper';
 import {StackActions, useNavigation, useRoute} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import SearchNews from './SearchNews';
 import Alert from './Alert';
 
+let toDate = new Date().toISOString().split('T')[0];
+let fromDate = toDate.split('-');
+fromDate[1] = (fromDate[1] - 1).toString().padStart(2, '0');
+fromDate = fromDate.join('-');
+
 const Search = () => {
-  const route = useRoute();
+  const {params} = useRoute();
   const navigation = useNavigation();
-  const {url, badgeColor} = route.params;
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isSearch, setIsSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(params.query);
   const [isConnect, setIsConnect] = useState(null);
 
   const isOffline = () => {
@@ -30,7 +32,6 @@ const Search = () => {
   }, [isConnect]);
 
   const handleBackPress = () => {
-    console.log('back');
     navigation.goBack();
   };
   const onSubmitEditing = () => {
@@ -38,8 +39,13 @@ const Search = () => {
       setSearchQuery('');
       return;
     }
-    setIsSearch(searchQuery);
-    navigation.dispatch(StackActions.push('Search'));
+    navigation.dispatch(StackActions.pop(1));
+    navigation.dispatch(
+      StackActions.push('SearchNews', {
+        url: `https://newsapi.org/v2/everything?q=${searchQuery}&from=${fromDate}to=${toDate}&sortBy=publishedAt&apikey=`,
+        query: searchQuery,
+      }),
+    );
   };
   return (
     <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
@@ -57,7 +63,7 @@ const Search = () => {
         onSubmitEditing={onSubmitEditing}
       />
       {isConnect === false && <Alert msg={'Your are offline'} />}
-      {isSearch && (
+      {/* {isSearch && (
         <SearchNews
           url={url.replace(
             'undefined',
@@ -70,7 +76,7 @@ const Search = () => {
               : isSearch.trim().toLowerCase()
           }
         />
-      )}
+      )} */}
     </View>
   );
 };

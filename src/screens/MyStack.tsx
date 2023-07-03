@@ -2,12 +2,17 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import Tabs from './Tabs';
 import Search from '../components/Search';
+import SearchNews from '../components/SearchNews';
 
 export type RootStackParamsList = {
   Home: undefined;
   Search: {
+    query: string;
+  };
+  SearchNews: {
     url: string;
     badgeColor: string;
+    query: string;
   };
 };
 
@@ -20,12 +25,16 @@ const MyStack = () => {
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Home" component={Tabs} />
       <Stack.Screen
+        initialParams={{query: 'telsa'}}
         name="Search"
+        component={Search}
+      />
+      <Stack.Screen
+        name="SearchNews"
         initialParams={{
-          url: 'https://newsapi.org/v2/everything?q=undefined&from=${fromDate}to=${toDate}&sortBy=publishedAt&apikey=',
           badgeColor: 'bg-purple-600',
         }}
-        component={Search}
+        component={SearchNews}
       />
     </Stack.Navigator>
   );

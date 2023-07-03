@@ -46,7 +46,7 @@ function News(): JSX.Element {
     // API Call
     if (isConnect) {
       let API = await AsyncStorage.getItem('API');
-      API = API ? APIs[API] : APIs.API_KEY_1;
+      API = API ? APIs[API] : APIs.API_KEY_1; // This is to improve initial startup of app
       console.log('news', {API});
       let res = await fetch(`${url}${API}&page=${page}&pagesize=${pageSize}`);
       console.log(`${url}${API}&page=${page}&pagesize=${pageSize}`);
