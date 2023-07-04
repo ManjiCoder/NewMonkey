@@ -18,7 +18,6 @@ const options = {
   enableVibrateFallback: false,
   ignoreAndroidSystemSettings: true,
 };
-// let history = [];
 
 let toDate = new Date().toISOString().split('T')[0];
 let fromDate = toDate.split('-');
@@ -121,46 +120,6 @@ const Tabs = () => {
     // },
   ];
 
-  // const navigation = useNavigation();
-
-  // const backAction = async () => {
-  //   try {
-  //     if (history.length > 0) {
-  //       const previousTab = history.pop();
-  //       const {routeNames} = navigation.getState();
-  //       const screen = screens[routeNames.indexOf(previousTab)];
-  //       console.log(screen.name, {
-  //         url: screen.url,
-  //         badgeColor: screen.badgeColor,
-  //       });
-  //       navigation.navigate(previousTab, {
-  //         url: screen.url,
-  //         badgeColor: screen.badgeColor,
-  //       });
-  //     } else {
-  //       BackHandler.exitApp();
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const historyTab = tab => {
-  //   history.push(tab);
-  //   console.log(history);
-  // };
-
-  // useEffect(() => {
-  //   const backHandle = BackHandler.addEventListener(
-  //     'hardwareBackPress',
-  //     backAction,
-  //   );
-  //   return () => {
-  //     backHandle.remove();
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   return (
     <Tab.Navigator
       initialRouteName="General"
@@ -209,16 +168,16 @@ const TabIcon = ({active, item}) => {
     return (
       <Animatable.View
         animation={'bounceIn'}
-        duration={400}
-        delay={100}
+        duration={200}
+        delay={50}
         className="absolute -top-4 w-full">
         <View className="rounded-full shadow-sm shadow-black dark:shadow-white justify-center items-center mt-1.5 h-9 w-9 mx-auto bg-white -top-0 scale-125 border-2 border-blue-700">
           {item.icon}
         </View>
         <Animatable.Text
           animation={'bounceIn'}
-          duration={400}
-          delay={100}
+          duration={300}
+          delay={50}
           className="text-[7px] mt-1 text-center font-bold text-blue-700 dark:text-white">
           {item.name === 'General' ? 'Home' : item.name}
         </Animatable.Text>

@@ -25,7 +25,7 @@ const MyStack = () => {
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Home" component={Tabs} />
       <Stack.Screen
-        initialParams={{query: 'telsa'}}
+        initialParams={{query: ''}}
         name="Search"
         component={Search}
       />

@@ -5,6 +5,7 @@ import {Searchbar} from 'react-native-paper';
 import {StackActions, useNavigation, useRoute} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Alert from './Alert';
+import {useColorScheme} from 'nativewind';
 
 let toDate = new Date().toISOString().split('T')[0];
 let fromDate = toDate.split('-');
@@ -16,6 +17,9 @@ const Search = () => {
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState(params.query);
   const [isConnect, setIsConnect] = useState(null);
+
+  const {colorScheme} = useColorScheme();
+  const isDark = colorScheme === 'dark';
 
   const isOffline = () => {
     NetInfo.addEventListener(state => {
@@ -39,10 +43,12 @@ const Search = () => {
       setSearchQuery('');
       return;
     }
-    navigation.dispatch(StackActions.pop(1));
+    navigation.dispatch(StackActions.pop());
     navigation.dispatch(
       StackActions.push('SearchNews', {
-        url: `https://newsapi.org/v2/everything?q=${searchQuery}&from=${fromDate}to=${toDate}&sortBy=publishedAt&apikey=`,
+        url: `https://newsapi.org/v2/everything?q=${searchQuery
+          .trim()
+          .toLowerCase()}&from=${fromDate}to=${toDate}&sortBy=publishedAt&apikey=`,
         query: searchQuery,
       }),
     );
@@ -51,32 +57,25 @@ const Search = () => {
     <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
       <Searchbar
         placeholder={'Search - NewsMoney'}
-        placeholderTextColor={'gray'}
+        placeholderTextColor={'rgb(203 213 225)'}
         onChangeText={query => setSearchQuery(query)}
         value={searchQuery}
         // eslint-disable-next-line react/no-unstable-nested-components
-        icon={() => <Ionicons name="arrow-back" color={'#1e293b'} size={30} />}
-        inputStyle={styles.input}
-        mode="bar"
-        className="mx-5 mt-1 h-10 mr-20 mb-2.5"
+        icon={() => (
+          <Ionicons
+            name="arrow-back"
+            color={isDark ? 'rgb(203 213 225)' : '#1e293b'}
+            size={27}
+          />
+        )}
+        iconColor={isDark ? 'rgb(203 213 225)' : '#1e293b'}
+        inputStyle={[styles.input, isDark ? styles.textDark : styles.textLight]}
+        autoFocus={true}
+        className="mx-7 mr-12 mt-1 h-10 mb-2.5 bg-slate-50 dark:bg-slate-600"
         onIconPress={handleBackPress}
         onSubmitEditing={onSubmitEditing}
       />
       {isConnect === false && <Alert msg={'Your are offline'} />}
-      {/* {isSearch && (
-        <SearchNews
-          url={url.replace(
-            'undefined',
-            encodeURIComponent(isSearch.trim().toLowerCase()),
-          )}
-          badgeColor={badgeColor}
-          query={
-            isSearch.trim() === ''
-              ? setIsSearch('')
-              : isSearch.trim().toLowerCase()
-          }
-        />
-      )} */}
     </View>
   );
 };
@@ -87,6 +86,7 @@ const styles = StyleSheet.create({
   input: {
     fontWeight: '600',
     alignSelf: 'center',
-    color: '#1e293b',
   },
+  textDark: {color: 'white'},
+  textLight: {color: '#1e293b'},
 });

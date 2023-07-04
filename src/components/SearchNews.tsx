@@ -1,6 +1,11 @@
-import {View, FlatList, RefreshControl} from 'react-native';
+import {View, FlatList, RefreshControl, StyleSheet} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {useRoute, useScrollToTop} from '@react-navigation/native';
+import {
+  useNavigation,
+  StackActions,
+  useRoute,
+  useScrollToTop,
+} from '@react-navigation/native';
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -11,18 +16,30 @@ import Loader from './Loader';
 import SnackBar from './SnackBar';
 import NotFound from './NotFound';
 import BottomLoader from './BottomLoader';
+import {Searchbar} from 'react-native-paper';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useColorScheme} from 'nativewind';
+
+let toDate = new Date().toISOString().split('T')[0];
+let fromDate = toDate.split('-');
+fromDate[1] = (fromDate[1] - 1).toString().padStart(2, '0');
+fromDate = fromDate.join('-');
 
 const SearchNews = (): JSX.Element => {
   const {params} = useRoute();
+  const navigation = useNavigation();
   const {url, badgeColor, query} = params;
   const ref = useRef(null);
   useScrollToTop(ref);
+  const [searchQuery, setSearchQuery] = useState<string>(query);
   const [NewArticals, setNewArticals] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [isError, setIsError] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(1);
+  const {colorScheme} = useColorScheme();
+  const isDark = colorScheme === 'dark';
 
   let pageSize = 16;
   const [isConnect, setIsConnect] = useState(null);
@@ -108,8 +125,48 @@ const SearchNews = (): JSX.Element => {
     }
   };
 
+  const handleBackPress = () => {
+    // navigation.setOptions({query: query});
+    // console.log('setback', query);
+    navigation.goBack();
+  };
+  const onSubmitEditing = () => {
+    if (searchQuery.trim() === '' && searchQuery === query) {
+      setSearchQuery('');
+      return;
+    }
+    // navigation.dispatch(StackActions.pop());
+    navigation.setOptions({query: query});
+    navigation.dispatch(
+      StackActions.push('SearchNews', {
+        url: `https://newsapi.org/v2/everything?q=${searchQuery
+          .trim()
+          .toLowerCase()}&from=${fromDate}to=${toDate}&sortBy=publishedAt&apikey=`,
+        query: searchQuery.trim(),
+      }),
+    );
+  };
   return (
     <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
+      <Searchbar
+        placeholder={'Search - NewsMoney'}
+        placeholderTextColor={'rgb(203 213 225)'}
+        onChangeText={text => setSearchQuery(text)}
+        value={query}
+        // eslint-disable-next-line react/no-unstable-nested-components
+        icon={() => (
+          <Ionicons
+            name="arrow-back"
+            color={isDark ? 'rgb(203 213 225)' : '#1e293b'}
+            size={27}
+          />
+        )}
+        iconColor={isDark ? 'rgb(203 213 225)' : '#1e293b'}
+        inputStyle={[styles.input, isDark ? styles.textDark : styles.textLight]}
+        className="mx-7 mr-12 mt-1 h-10 mb-2.5 bg-slate-50 dark:bg-slate-600"
+        onIconPress={handleBackPress}
+        onSubmitEditing={onSubmitEditing}
+      />
       <NewsHeading query={query} />
       {isLoading && <Loader />}
 
@@ -134,13 +191,22 @@ const SearchNews = (): JSX.Element => {
           onEndReached={fetchMore}
           onEndReachedThreshold={0.5}
           // eslint-disable-next-line react-native/no-inline-styles
-          contentContainerStyle={{paddingBottom: 310}}
+          contentContainerStyle={{paddingBottom: 170}}
         />
       )}
 
-      {isFetching && <BottomLoader bottom={'bottom-[310px]'} />}
+      {isFetching && <BottomLoader bottom={'bottom-40'} />}
     </View>
   );
 };
 
 export default SearchNews;
+
+const styles = StyleSheet.create({
+  input: {
+    fontWeight: '600',
+    alignSelf: 'center',
+  },
+  textDark: {color: 'white'},
+  textLight: {color: '#1e293b'},
+});

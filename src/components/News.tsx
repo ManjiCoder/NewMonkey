@@ -11,6 +11,7 @@ import ServerButton, {APIs} from './ServerButton';
 import BottomLoader from './BottomLoader';
 import NewsHeading from './NewsHeading';
 import Alert from './Alert';
+import SearchButton from './SearchButton';
 
 function News(): JSX.Element {
   const route = useRoute();
@@ -118,6 +119,7 @@ function News(): JSX.Element {
 
   return (
     <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
+      <SearchButton />
       <NewsHeading query={name} />
       {isLoading && <Loader />}
 

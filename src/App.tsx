@@ -8,7 +8,6 @@ import NewsState from './context/News/NewsState';
 
 import Feather from 'react-native-vector-icons/Feather';
 import MyStack from './screens/MyStack';
-import SearchButton from './components/SearchButton';
 
 // This is not working in context API
 const darkStatusBar = '#1e293b';
@@ -49,7 +48,7 @@ function App(): JSX.Element {
             backgroundColor={isDark ? darkStatusBar : lightStatusBar}
           />
           <ToggleThemeButton isDark={isDark} />
-          <SearchButton />
+
           {/* <Tabs /> */}
           <MyStack />
         </View>
