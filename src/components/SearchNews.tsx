@@ -19,16 +19,23 @@ import BottomLoader from './BottomLoader';
 import {Searchbar} from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useColorScheme} from 'nativewind';
+import Alert from './Alert';
 
 let toDate = new Date().toISOString().split('T')[0];
 let fromDate = toDate.split('-');
 fromDate[1] = (fromDate[1] - 1).toString().padStart(2, '0');
 fromDate = fromDate.join('-');
 
+let history = [];
+
 const SearchNews = (): JSX.Element => {
   const {params} = useRoute();
   const navigation = useNavigation();
   const {url, badgeColor, query} = params;
+
+  if (!history.includes(query)) {
+    history.push(query);
+  }
   const ref = useRef(null);
   useScrollToTop(ref);
   const [searchQuery, setSearchQuery] = useState<string>(query);
@@ -73,13 +80,6 @@ const SearchNews = (): JSX.Element => {
     }
     setIsLoading(false);
   };
-
-  useEffect(() => {
-    // console.log('Iam fetching', query);
-    isOffline();
-    getNews();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, isConnect]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -126,31 +126,42 @@ const SearchNews = (): JSX.Element => {
   };
 
   const handleBackPress = () => {
-    // navigation.setOptions({query: query});
-    // console.log('setback', query);
+    history.pop();
     navigation.goBack();
+    console.log({history}, navigation.getState().index);
   };
+
   const onSubmitEditing = () => {
     if (searchQuery.trim() === '' && searchQuery === query) {
       setSearchQuery('');
       return;
     }
-    // navigation.dispatch(StackActions.pop());
-    navigation.setOptions({query: query});
-    navigation.dispatch(
-      StackActions.push('SearchNews', {
-        url: `https://newsapi.org/v2/everything?q=${searchQuery
-          .trim()
-          .toLowerCase()}&from=${fromDate}to=${toDate}&sortBy=publishedAt&apikey=`,
-        query: searchQuery.trim(),
-      }),
-    );
+
+    if (!history.includes(searchQuery)) {
+      navigation.dispatch(
+        StackActions.push('SearchNews', {
+          url: `https://newsapi.org/v2/everything?q=${searchQuery
+            .trim()
+            .toLowerCase()}&from=${fromDate}to=${toDate}&sortBy=publishedAt&apikey=`,
+          query: searchQuery.trim(),
+        }),
+      );
+    }
   };
+
+  useEffect(() => {
+    isOffline();
+    getNews();
+
+    console.debug('SearchNews', {history}, navigation.getState().index);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnect]);
   return (
     <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
       <Searchbar
         placeholder={'Search - NewsMoney'}
-        placeholderTextColor={'rgb(203 213 225)'}
+        placeholderTextColor={isDark ? 'rgb(203 213 225)' : 'rgb(100 116 139)'}
         onChangeText={text => setSearchQuery(text)}
         value={query}
         // eslint-disable-next-line react/no-unstable-nested-components
@@ -169,6 +180,8 @@ const SearchNews = (): JSX.Element => {
       />
       <NewsHeading query={query} />
       {isLoading && <Loader />}
+
+      {isConnect === false && <Alert msg={'Your are offline'} />}
 
       {isError && (
         <SnackBar msg={isError}>

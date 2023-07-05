@@ -14,8 +14,9 @@ fromDate = fromDate.join('-');
 
 const Search = () => {
   const {params} = useRoute();
+  const {query} = params;
   const navigation = useNavigation();
-  const [searchQuery, setSearchQuery] = useState(params.query);
+  const [searchQuery, setSearchQuery] = useState<string>(query);
   const [isConnect, setIsConnect] = useState(null);
 
   const {colorScheme} = useColorScheme();
@@ -43,13 +44,13 @@ const Search = () => {
       setSearchQuery('');
       return;
     }
-    navigation.dispatch(StackActions.pop());
+    navigation.dispatch(StackActions.pop(1));
     navigation.dispatch(
       StackActions.push('SearchNews', {
         url: `https://newsapi.org/v2/everything?q=${searchQuery
           .trim()
           .toLowerCase()}&from=${fromDate}to=${toDate}&sortBy=publishedAt&apikey=`,
-        query: searchQuery,
+        query: searchQuery.trim(),
       }),
     );
   };
@@ -57,7 +58,7 @@ const Search = () => {
     <View className="min-h-screen bg-slate-300 dark:bg-slate-800">
       <Searchbar
         placeholder={'Search - NewsMoney'}
-        placeholderTextColor={'rgb(203 213 225)'}
+        placeholderTextColor={isDark ? 'rgb(203 213 225)' : 'rgb(100 116 139)'}
         onChangeText={query => setSearchQuery(query)}
         value={searchQuery}
         // eslint-disable-next-line react/no-unstable-nested-components
